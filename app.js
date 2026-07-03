@@ -23,3 +23,54 @@ window.onload = () => {
     setInterval(cargarPendientes,2000);
 
 };
+// ==========================================
+// CÁMARA
+// ==========================================
+
+function iniciarCamara(){
+
+    Html5Qrcode.getCameras()
+
+    .then(cameras => {
+
+        if(cameras.length === 0){
+            throw "No se encontró ninguna cámara.";
+        }
+
+        return reader.start(
+
+            { facingMode: "environment" },
+
+            {
+                fps:5,
+                qrbox:250,
+                disableFlip:true
+            },
+
+            codigoDetectado
+
+        );
+
+    })
+
+    .catch(error => {
+
+        mostrarError(error);
+
+    });
+
+}
+// ==========================================
+// INTERFAZ
+// ==========================================
+
+function mostrarError(error){
+
+    document.getElementById("resultado").innerHTML = `
+        <h2>❌ Error</h2>
+        <p>${error}</p>
+    `;
+
+    console.error(error);
+
+}
