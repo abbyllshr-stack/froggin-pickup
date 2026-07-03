@@ -244,14 +244,12 @@ async function enviarSolicitud(){
 
         if(resultado){
 
-            mostrarMensaje(
+            mostrarMensaje();
                 "✅ Solicitud enviada",
                 `
                 Se notificó a:<br>
                 <strong>${teacher}</strong>
                 `
-            );
-
             cargarPendientes();
 
             alumnoActual = "";
