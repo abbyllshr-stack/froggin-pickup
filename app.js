@@ -246,35 +246,39 @@ const respuesta = await fetch(url);
 
         if(resultado){
 
-            mostrarMensaje();
-                "✅ Solicitud enviada",
-                `
-                Se notificó a:<br>
-                <strong>${teacher}</strong>
-                `
-            cargarPendientes();
+    mostrarMensaje(
+        "✅ Solicitud enviada",
+        `
+        Se notificó a:<br>
+        <strong>${teacher}</strong>
+        `
+    );
 
-            alumnoActual = "";
+    cargarPendientes();
 
-            procesando = false;
+    alumnoActual = "";
 
-        }else{
+    procesando = false;
 
-            mostrarMensaje();
-                "❌ Error",
-                "No fue posible enviar la solicitud."
-            
+}else{
 
-            procesando = false;
+    mostrarMensaje(
+        "❌ Error",
+        "No fue posible enviar la solicitud."
+    );
 
+    procesando = false;
+
+}
+        
         }catch(error){
 
         console.error(error);
 
-        mostrarMensaje();
+        mostrarMensaje(
             "❌ Error",
             error
-        
+        );
 
         procesando = false;
 
