@@ -84,15 +84,36 @@ async function codigoDetectado(texto){
 
             mostrarMensaje(
 
-                "✅ Solicitud enviada",
+    "✅ Alumno encontrado",
 
-                `
-                <strong>${datos.alumno}</strong><br>
-                ${datos.grupo}<br>
-                👩‍🏫 ${datos.teacher}
-                `
+    `
+    <strong>${datos.alumno}</strong><br>
+    ${datos.grupo}<br><br>
 
-            );
+    <label><strong>Teacher:</strong></label><br>
+
+    <select id="teacherSelect">
+
+        <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
+
+        <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
+
+        <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
+
+    </select>
+
+    <br><br>
+
+    <button id="btnEnviar">
+        📨 Enviar solicitud
+    </button>
+
+    `
+
+);
+            document
+.getElementById("btnEnviar")
+.onclick = enviarSolicitud;
 
             cargarPendientes();
 
@@ -203,5 +224,10 @@ window.onload = () => {
         cargarPendientes,
         CONFIG.REFRESH_TIME
     );
+    function enviarSolicitud(){
+
+    alert("Aquí enviaremos la solicitud.");
+
+}
 
 };
