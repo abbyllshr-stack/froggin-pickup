@@ -27,12 +27,12 @@ h1{
 
 #reader{
 
-    width:220px;
+    width:120px;
     margin:0 auto 5px;
     border-radius:10px;
     overflow:hidden;
     background:white;
-    box-shadow:0 3px 9px rgba(0,0,0,.15);
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
 }
 
 #resultado{
