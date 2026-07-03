@@ -219,7 +219,7 @@ window.onload = () => {
         CONFIG.REFRESH_TIME
     );
 
-}
+};
 
 // ==========================================
 // ENVIAR SOLICITUD
@@ -253,6 +253,8 @@ async function enviarSolicitud(){
             );
 
             cargarPendientes();
+
+            alumnoActual = "";
 
             procesando = false;
 
