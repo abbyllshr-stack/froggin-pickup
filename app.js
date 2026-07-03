@@ -267,8 +267,7 @@ const respuesta = await fetch(url);
 
             procesando = false;
 
-        }
-    }catch(error){
+        }catch(error){
 
         console.error(error);
 
