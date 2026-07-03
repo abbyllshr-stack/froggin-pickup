@@ -224,7 +224,7 @@ window.onload = () => {
         CONFIG.REFRESH_TIME
     );
 
-};
+}
 
 // ==========================================
 // ENVIAR SOLICITUD
