@@ -134,4 +134,12 @@ async function cargarPendientes(){
 
 }
 
-window.onload = iniciarCamara;
+window.onload = () => {
+
+    iniciarCamara();
+
+    cargarPendientes();
+
+    setInterval(cargarPendientes,2000);
+
+};
