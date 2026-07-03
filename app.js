@@ -224,7 +224,6 @@ window.onload = () => {
 // ==========================================
 // ENVIAR SOLICITUD
 // ==========================================
-
 async function enviarSolicitud(){
 
     const teacher =
@@ -258,12 +257,27 @@ async function enviarSolicitud(){
 
             procesando = false;
 
+        }else{
+
             mostrarMensaje(
                 "❌ Error",
                 "No fue posible enviar la solicitud."
             );
 
             procesando = false;
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarMensaje(
+            "❌ Error",
+            error
+        );
+
+        procesando = false;
 
     }
 
