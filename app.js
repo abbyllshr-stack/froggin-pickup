@@ -34,7 +34,11 @@ function iniciarCamara() {
 
             {
                 fps: CONFIG.CAMERA.fps,
-                qrbox: CONFIG.CAMERA.qrbox,
+                qrbox: {
+                width: 180,
+                height: 180
+                },
+                aspectRatio: 1
                 disableFlip: true
             },
 
