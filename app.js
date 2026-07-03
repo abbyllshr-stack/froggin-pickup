@@ -231,14 +231,16 @@ async function enviarSolicitud(){
         document.getElementById("teacherSelect").value;
 
     const url =
-        API_URL +
-        "?action=enviar" +
-        "&id=" + encodeURIComponent(alumnoActual) +
-        "&teacher=" + encodeURIComponent(teacher);
+    API_URL +
+    "?action=enviar" +
+    "&id=" + encodeURIComponent(alumnoActual) +
+    "&teacher=" + encodeURIComponent(teacher);
 
-    try{
+console.log("Alumno:", alumnoActual);
+console.log("Teacher:", teacher);
+console.log("URL:", url);
 
-        const respuesta = await fetch(url);
+const respuesta = await fetch(url);
 
         const resultado = await respuesta.json();
 
