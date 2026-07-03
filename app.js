@@ -1,3 +1,5 @@
+const API_URL = "https://script.google.com/macros/s/AKfycbxnfKzj1Fdd31lNaRgEveoz_Fk0z28tB61LhTRry6pFdZTfSZb3HXtzV0YF6opYdjoC/exec";
+
 const reader = new Html5Qrcode("reader");
 
 function iniciarCamara(){
@@ -27,7 +29,7 @@ function iniciarCamara(){
 
     .catch(error=>{
 
-        document.getElementById("resultado").innerHTML=`
+        document.getElementById("resultado").innerHTML = `
             <h2>❌ Error</h2>
             <p>${error}</p>
         `;
@@ -36,15 +38,48 @@ function iniciarCamara(){
 
 }
 
-function codigoDetectado(texto){
+async function codigoDetectado(texto){
 
-    reader.stop();
+    await reader.stop();
 
-    document.getElementById("resultado").innerHTML=`
-        <h2>✅ QR leído</h2>
-        <p>${texto}</p>
+    document.getElementById("resultado").innerHTML = `
+        <h2>🔍 Buscando alumno...</h2>
     `;
+
+    const url = API_URL + "?action=buscar&id=" + encodeURIComponent(texto);
+
+    try{
+
+        const respuesta = await fetch(url);
+
+        const datos = await respuesta.json();
+
+        if(datos.encontrado){
+
+            document.getElementById("resultado").innerHTML = `
+                <h2>✅ Solicitud enviada</h2>
+                <p><strong>${datos.alumno}</strong></p>
+                <p>${datos.grupo}</p>
+                <p>👩‍🏫 ${datos.teacher}</p>
+            `;
+
+        }else{
+
+            document.getElementById("resultado").innerHTML = `
+                <h2>❌ Alumno no encontrado</h2>
+            `;
+
+        }
+
+    }catch(error){
+
+        document.getElementById("resultado").innerHTML = `
+            <h2>❌ Error</h2>
+            <p>${error}</p>
+        `;
+
+    }
 
 }
 
-window.onload=iniciarCamara;
+window.onload = iniciarCamara;
