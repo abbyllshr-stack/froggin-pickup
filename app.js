@@ -111,9 +111,11 @@ async function codigoDetectado(texto){
     `
 
 );
-            document
-.getElementById("btnEnviar")
-.onclick = enviarSolicitud;
+           document.getElementById("btnEnviar").addEventListener("click", function(){
+
+    enviarSolicitud();
+
+});
 
             cargarPendientes();
 
@@ -137,16 +139,18 @@ async function codigoDetectado(texto){
 
     }
 
-    setTimeout(()=>{
+/*
+setTimeout(()=>{
 
-        procesando=false;
+    procesando=false;
 
-        mostrarMensaje(
-            "🟢 Listo para escanear",
-            ""
-        );
+    mostrarMensaje(
+        "🟢 Listo para escanear",
+        ""
+    );
 
-    },CONFIG.RESULT_TIME);
+},CONFIG.RESULT_TIME);
+*/
 
 }
 // ==========================================
