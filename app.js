@@ -9,7 +9,10 @@ const API_URL = CONFIG.API_URL;
 // ---------- VARIABLES ----------
 
 const reader = new Html5Qrcode("reader");
+
 let procesando = false;
+
+let alumnoActual = "";
 
 // ==========================================
 // CÁMARA
@@ -63,6 +66,7 @@ async function codigoDetectado(texto){
     if(procesando) return;
 
     procesando = true;
+    alumnoActual = texto;
 
     mostrarMensaje(
         "🔍 Buscando alumno...",
@@ -221,8 +225,57 @@ window.onload = () => {
 // ENVIAR SOLICITUD
 // ==========================================
 
-function enviarSolicitud(){
+async function enviarSolicitud(){
 
-    alert("Aquí enviaremos la solicitud.");
+    const teacher =
+        document.getElementById("teacherSelect").value;
 
-}
+    const url =
+        API_URL +
+        "?action=enviar" +
+        "&id=" + encodeURIComponent(alumnoActual) +
+        "&teacher=" + encodeURIComponent(teacher);
+
+    try{
+
+        const respuesta = await fetch(url);
+
+        const resultado = await respuesta.json();
+
+        if(resultado){
+
+            mostrarMensaje(
+                "✅ Solicitud enviada",
+                `
+                Se notificó a:<br>
+                <strong>${teacher}</strong>
+                `
+            );
+
+            cargarPendientes();
+
+            procesando = false;
+
+        }else{
+
+            mostrarMensaje(
+                "❌ Error",
+                "No fue posible enviar la solicitud."
+            );
+
+            procesando = false;
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarMensaje(
+            "❌ Error",
+            error
+        );
+
+        procesando = false;
+
+    }
