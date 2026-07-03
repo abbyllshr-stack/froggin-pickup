@@ -226,6 +226,10 @@ window.onload = () => {
 
 };
 
+// ==========================================
+// ENVIAR SOLICITUD
+// ==========================================
+
 function enviarSolicitud(){
 
     alert("Aquí enviaremos la solicitud.");
