@@ -91,6 +91,47 @@ setTimeout(() => {
 
     }
 
+async function cargarPendientes(){
+
+    const url = API_URL + "?action=pendientes";
+
+    try{
+
+        const respuesta = await fetch(url);
+
+        const alumnos = await respuesta.json();
+
+        const lista = document.getElementById("listaPendientes");
+
+        lista.innerHTML = "";
+
+        if(alumnos.length==0){
+
+            lista.innerHTML="<p>🐸 No hay alumnos pendientes.</p>";
+            return;
+
+        }
+
+        alumnos.forEach(alumno=>{
+
+            lista.innerHTML += `
+                <div class="alumnoPendiente">
+
+                    <strong>${alumno.alumno}</strong><br>
+
+                    ${alumno.grupo}
+
+                </div>
+            `;
+
+        });
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
 }
 
 window.onload = iniciarCamara;
