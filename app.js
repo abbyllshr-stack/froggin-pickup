@@ -235,7 +235,7 @@ async function enviarSolicitud(){
         "?action=enviar" +
         "&id=" + encodeURIComponent(alumnoActual) +
         "&teacher=" + encodeURIComponent(teacher);
-
+}
     try{
 
         const respuesta = await fetch(url);
@@ -268,7 +268,7 @@ async function enviarSolicitud(){
             procesando = false;
 
         }
-
+    }
     }catch(error){
 
         console.error(error);
