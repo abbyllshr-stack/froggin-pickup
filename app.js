@@ -28,23 +28,30 @@ function iniciarCamara() {
             throw "No se encontró ninguna cámara.";
         }
 
-        return reader.start(
+       return reader.start(
 
-            { facingMode: CONFIG.CAMERA.facingMode },
+    {
+        facingMode: "environment"
+    },
 
-            {
-                fps: CONFIG.CAMERA.fps,
-                qrbox: {
-                width: 180,
-                height: 180
-                },
-                aspectRatio: 1
-                disableFlip: true
-            },
+    {
 
-            codigoDetectado
+        fps: 5,
 
-        );
+        qrbox: {
+            width: 150,
+            height: 150
+        },
+
+        aspectRatio: 1,
+
+        disableFlip: true
+
+    },
+
+    codigoDetectado
+
+);
 
     })
 
