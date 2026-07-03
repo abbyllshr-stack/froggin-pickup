@@ -1,0 +1,47 @@
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#e8f5e9;
+}
+
+.contenedor{
+    max-width:500px;
+    margin:30px auto;
+    padding:20px;
+}
+
+h1{
+    text-align:center;
+    color:#2E7D32;
+}
+
+.estado{
+    background:#43A047;
+    color:white;
+    text-align:center;
+    padding:15px;
+    border-radius:12px;
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+#reader{
+    width:100%;
+    border-radius:15px;
+    overflow:hidden;
+    background:white;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+#resultado{
+    margin-top:20px;
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
+}
+
+h2{
+    margin-top:0;
+    color:#2E7D32;
+}
