@@ -139,19 +139,6 @@ async function codigoDetectado(texto){
 
     }
 
-/*
-setTimeout(()=>{
-
-    procesando=false;
-
-    mostrarMensaje(
-        "🟢 Listo para escanear",
-        ""
-    );
-
-},CONFIG.RESULT_TIME);
-*/
-
 }
 // ==========================================
 // PENDIENTES
