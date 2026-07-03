@@ -1,25 +1,38 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxnfKzj1Fdd31lNaRgEveoz_Fk0z28tB61LhTRry6pFdZTfSZb3HXtzV0YF6opYdjoC/exec";
+// ==========================================
+// FROGGIN PICKUP v1.1
+// ==========================================
+
+// ---------- CONFIGURACIÓN ----------
+
+const API_URL = CONFIG.API_URL;
+
+// ---------- VARIABLES ----------
 
 const reader = new Html5Qrcode("reader");
 let procesando = false;
-function iniciarCamara(){
+
+// ==========================================
+// CÁMARA
+// ==========================================
+
+function iniciarCamara() {
 
     Html5Qrcode.getCameras()
 
     .then(cameras => {
 
-        if(cameras.length === 0){
+        if (cameras.length === 0) {
             throw "No se encontró ninguna cámara.";
         }
 
         return reader.start(
 
-            { facingMode: "environment" },
+            { facingMode: CONFIG.CAMERA.facingMode },
 
             {
-               fps:5,
-                qrbox:250,
-                disableFlip:true
+                fps: CONFIG.CAMERA.fps,
+                qrbox: CONFIG.CAMERA.qrbox,
+                disableFlip: true
             },
 
             codigoDetectado
@@ -28,28 +41,38 @@ function iniciarCamara(){
 
     })
 
-    .catch(error=>{
+    .catch(error => {
 
-        document.getElementById("resultado").innerHTML = `
-            <h2>❌ Error</h2>
-            <p>${error}</p>
-        `;
+        mostrarMensaje(
+            "❌ Error",
+            error
+        );
+
+        console.error(error);
 
     });
 
 }
 
+// ==========================================
+// ESCANEO
+// ==========================================
+
 async function codigoDetectado(texto){
 
     if(procesando) return;
 
-procesando = true;
-    
-    document.getElementById("resultado").innerHTML = `
-        <h2>🔍 Buscando alumno...</h2>
-    `;
+    procesando = true;
 
-    const url = API_URL + "?action=buscar&id=" + encodeURIComponent(texto);
+    mostrarMensaje(
+        "🔍 Buscando alumno...",
+        ""
+    );
+
+    const url =
+        API_URL +
+        "?action=buscar&id=" +
+        encodeURIComponent(texto);
 
     try{
 
@@ -57,61 +80,79 @@ procesando = true;
 
         const datos = await respuesta.json();
 
-if(datos.encontrado){
+        if(datos.encontrado){
 
-    document.getElementById("resultado").innerHTML = `
-        <h2>✅ Solicitud enviada</h2>
-        <p><strong>${datos.alumno}</strong></p>
-        <p>${datos.grupo}</p>
-        <p>👩‍🏫 ${datos.teacher}</p>
-    `;
+            mostrarMensaje(
 
-    cargarPendientes();
+                "✅ Solicitud enviada",
 
-}
+                `
+                <strong>${datos.alumno}</strong><br>
+                ${datos.grupo}<br>
+                👩‍🏫 ${datos.teacher}
+                `
+
+            );
+
+            cargarPendientes();
 
         }else{
 
-            document.getElementById("resultado").innerHTML = `
-                <h2>❌ Alumno no encontrado</h2>
-            `;
+            mostrarMensaje(
+                "❌ Alumno no encontrado",
+                ""
+            );
 
         }
-setTimeout(() => {
 
-    procesando = false;
-
-    document.getElementById("resultado").innerHTML = `
-        <h2>🟢 Listo para escanear</h2>
-    `;
-
-},2000);
     }catch(error){
-        procesando = false;
-        document.getElementById("resultado").innerHTML = `
-            <h2>❌ Error</h2>
-            <p>${error}</p>
-        `;
+
+        mostrarMensaje(
+            "❌ Error",
+            error
+        );
+
+        console.error(error);
 
     }
 
-async function cargarPendientes(){
+    setTimeout(()=>{
 
-    const url = API_URL + "?action=pendientes";
+        procesando=false;
+
+        mostrarMensaje(
+            "🟢 Listo para escanear",
+            ""
+        );
+
+    },CONFIG.RESULT_TIME);
+
+}
+// ==========================================
+// PENDIENTES
+// ==========================================
+
+async function cargarPendientes(){
 
     try{
 
-        const respuesta = await fetch(url);
+        const respuesta = await fetch(
+            API_URL + "?action=pendientes"
+        );
 
         const alumnos = await respuesta.json();
 
         const lista = document.getElementById("listaPendientes");
 
+        if(!lista) return;
+
         lista.innerHTML = "";
 
-        if(alumnos.length==0){
+        if(alumnos.length === 0){
 
-            lista.innerHTML="<p>🐸 No hay alumnos pendientes.</p>";
+            lista.innerHTML =
+                "<p>🐸 No hay alumnos pendientes.</p>";
+
             return;
 
         }
@@ -120,11 +161,8 @@ async function cargarPendientes(){
 
             lista.innerHTML += `
                 <div class="alumnoPendiente">
-
                     <strong>${alumno.alumno}</strong><br>
-
                     ${alumno.grupo}
-
                 </div>
             `;
 
@@ -132,11 +170,28 @@ async function cargarPendientes(){
 
     }catch(error){
 
-        console.log(error);
+        console.error(error);
 
     }
 
 }
+
+// ==========================================
+// INTERFAZ
+// ==========================================
+
+function mostrarMensaje(titulo,contenido){
+
+    document.getElementById("resultado").innerHTML = `
+        <h2>${titulo}</h2>
+        <p>${contenido}</p>
+    `;
+
+}
+
+// ==========================================
+// INICIO
+// ==========================================
 
 window.onload = () => {
 
@@ -144,6 +199,9 @@ window.onload = () => {
 
     cargarPendientes();
 
-    setInterval(cargarPendientes,2000);
+    setInterval(
+        cargarPendientes,
+        CONFIG.REFRESH_TIME
+    );
 
 };
