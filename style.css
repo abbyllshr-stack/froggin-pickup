@@ -74,3 +74,53 @@ h2{
     border-radius:20px;
 
 }
+#teacherSelect{
+
+    width:100%;
+
+    padding:18px;
+
+    font-size:24px;
+
+    border-radius:12px;
+
+    margin-top:10px;
+
+    margin-bottom:20px;
+
+}
+#btnEnviar{
+
+    width:100%;
+
+    padding:20px;
+
+    background:#43A047;
+
+    color:white;
+
+    border:none;
+
+    border-radius:15px;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+#btnEnviar:hover{
+
+    background:#2E7D32;
+
+}
+
+#btnEnviar:active{
+
+    transform:scale(.97);
+
+}
