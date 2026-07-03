@@ -18,10 +18,6 @@ window.onload = () => {
 
     iniciarCamara();
 
-    cargarPendientes();
-
-    setInterval(cargarPendientes,2000);
-
 };
 // ==========================================
 // CÁMARA
