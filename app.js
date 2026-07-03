@@ -265,19 +265,6 @@ async function enviarSolicitud(){
 
             procesando = false;
 
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        mostrarMensaje(
-            "❌ Error",
-            error
-        );
-
-        procesando = false;
-
     }
 
 }
