@@ -57,14 +57,18 @@ procesando = true;
 
         const datos = await respuesta.json();
 
-        if(datos.encontrado){
+if(datos.encontrado){
 
-            document.getElementById("resultado").innerHTML = `
-                <h2>✅ Solicitud enviada</h2>
-                <p><strong>${datos.alumno}</strong></p>
-                <p>${datos.grupo}</p>
-                <p>👩‍🏫 ${datos.teacher}</p>
-            `;
+    document.getElementById("resultado").innerHTML = `
+        <h2>✅ Solicitud enviada</h2>
+        <p><strong>${datos.alumno}</strong></p>
+        <p>${datos.grupo}</p>
+        <p>👩‍🏫 ${datos.teacher}</p>
+    `;
+
+    cargarPendientes();
+
+}
 
         }else{
 
