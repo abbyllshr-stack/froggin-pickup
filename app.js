@@ -39,8 +39,8 @@ function iniciarCamara() {
         fps: 5,
 
         qrbox: {
-            width: 150,
-            height: 150
+            width: 240,
+            height: 240
         },
 
         aspectRatio: 1,
