@@ -66,6 +66,8 @@ function iniciarCamara(){
 
 function mostrarError(error){
 
+    alert(error);
+
     document.getElementById("resultado").innerHTML = `
         <h2>❌ Error</h2>
         <p>${error}</p>
