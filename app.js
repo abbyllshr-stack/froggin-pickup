@@ -223,10 +223,11 @@ window.onload = () => {
         cargarPendientes,
         CONFIG.REFRESH_TIME
     );
-    function enviarSolicitud(){
+
+};
+
+function enviarSolicitud(){
 
     alert("Aquí enviaremos la solicitud.");
 
 }
-
-};
