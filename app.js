@@ -258,8 +258,6 @@ async function enviarSolicitud(){
 
             procesando = false;
 
-        }else{
-
             mostrarMensaje(
                 "❌ Error",
                 "No fue posible enviar la solicitud."
