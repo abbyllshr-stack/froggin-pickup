@@ -201,15 +201,14 @@ async function cargarPendientes(){
 // INTERFAZ
 // ==========================================
 
-function mostrarMensaje(titulo,contenido){
+function mostrarMensaje(titulo, contenido){
 
     document.getElementById("resultado").innerHTML = `
         <h2>${titulo}</h2>
-        <p>${contenido}</p>
+        ${contenido}
     `;
 
 }
-
 // ==========================================
 // INICIO
 // ==========================================
