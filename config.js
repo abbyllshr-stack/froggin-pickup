@@ -15,7 +15,7 @@ const CONFIG = {
 
         fps:5,
 
-        qrbox:250,
+        qrbox:180,
 
         facingMode:"environment"
 
