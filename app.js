@@ -231,47 +231,45 @@ async function enviarSolicitud(){
         document.getElementById("teacherSelect").value;
 
     const url =
-    API_URL +
-    "?action=enviar" +
-    "&id=" + encodeURIComponent(alumnoActual) +
-    "&teacher=" + encodeURIComponent(teacher);
+        API_URL +
+        "?action=enviar" +
+        "&id=" + encodeURIComponent(alumnoActual) +
+        "&teacher=" + encodeURIComponent(teacher);
 
-console.log("Alumno:", alumnoActual);
-console.log("Teacher:", teacher);
-console.log("URL:", url);
+    try{
 
-const respuesta = await fetch(url);
+        const respuesta = await fetch(url);
 
         const resultado = await respuesta.json();
 
         if(resultado){
 
-    mostrarMensaje(
-        "✅ Solicitud enviada",
-        `
-        Se notificó a:<br>
-        <strong>${teacher}</strong>
-        `
-    );
+            mostrarMensaje(
+                "✅ Solicitud enviada",
+                `
+                Se notificó a:<br>
+                <strong>${teacher}</strong>
+                `
+            );
 
-    cargarPendientes();
+            cargarPendientes();
 
-    alumnoActual = "";
+            alumnoActual = "";
 
-    procesando = false;
+            procesando = false;
 
-}else{
+        }else{
 
-    mostrarMensaje(
-        "❌ Error",
-        "No fue posible enviar la solicitud."
-    );
+            mostrarMensaje(
+                "❌ Error",
+                "No fue posible enviar la solicitud."
+            );
 
-    procesando = false;
+            procesando = false;
 
-}
-        
-        }catch(error){
+        }
+
+    }catch(error){
 
         console.error(error);
 
@@ -283,4 +281,5 @@ const respuesta = await fetch(url);
         procesando = false;
 
     }
+
 }
