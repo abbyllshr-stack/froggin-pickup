@@ -239,7 +239,11 @@ async function enviarSolicitud(){
 
         const respuesta = await fetch(url);
 
-        const resultado = await respuesta.json();
+      const texto = await respuesta.text();
+
+console.log(texto);
+
+return;
 
         if(resultado){
 
