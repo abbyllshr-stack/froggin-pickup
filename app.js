@@ -17,8 +17,9 @@ function iniciarCamara(){
             { facingMode: "environment" },
 
             {
-                fps:10,
-                qrbox:250
+               fps:5,
+                qrbox:250,
+                disableFlip:true
             },
 
             codigoDetectado
