@@ -1,7 +1,7 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbxnfKzj1Fdd31lNaRgEveoz_Fk0z28tB61LhTRry6pFdZTfSZb3HXtzV0YF6opYdjoC/exec";
 
 const reader = new Html5Qrcode("reader");
-
+let procesando = false;
 function iniciarCamara(){
 
     Html5Qrcode.getCameras()
@@ -40,8 +40,10 @@ function iniciarCamara(){
 
 async function codigoDetectado(texto){
 
-    await reader.stop();
+    if(procesando) return;
 
+procesando = true;
+    
     document.getElementById("resultado").innerHTML = `
         <h2>🔍 Buscando alumno...</h2>
     `;
@@ -70,9 +72,17 @@ async function codigoDetectado(texto){
             `;
 
         }
+setTimeout(() => {
 
+    procesando = false;
+
+    document.getElementById("resultado").innerHTML = `
+        <h2>🟢 Listo para escanear</h2>
+    `;
+
+},2000);
     }catch(error){
-
+        procesando = false;
         document.getElementById("resultado").innerHTML = `
             <h2>❌ Error</h2>
             <p>${error}</p>
