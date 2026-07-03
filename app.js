@@ -260,10 +260,10 @@ const respuesta = await fetch(url);
 
         }else{
 
-            mostrarMensaje(
+            mostrarMensaje();
                 "❌ Error",
                 "No fue posible enviar la solicitud."
-            );
+            
 
             procesando = false;
 
@@ -271,10 +271,10 @@ const respuesta = await fetch(url);
 
         console.error(error);
 
-        mostrarMensaje(
+        mostrarMensaje();
             "❌ Error",
             error
-        );
+        
 
         procesando = false;
 
