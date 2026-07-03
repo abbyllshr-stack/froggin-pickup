@@ -5,8 +5,8 @@ body{
 }
 
 .contenedor{
-    max-width:300px;
-    margin:30px auto;
+    max-width:450px;
+    margin:20px auto;
     padding:20px;
 }
 
@@ -26,7 +26,8 @@ h1{
 }
 
 #reader{
-    width:100%;
+    width:320px;
+    margin:0 auto;
     border-radius:15px;
     overflow:hidden;
     background:white;
