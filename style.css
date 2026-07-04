@@ -191,3 +191,27 @@ h2{
     cursor:pointer;
 
 }
+
+#btnReposicion{
+
+    width:100%;
+
+    padding:16px;
+
+    margin:15px 0;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#FFA726;
+
+    color:white;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
