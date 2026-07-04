@@ -156,62 +156,40 @@ h2{
 
 }
 
-#teacherSelect{
 
-    width:100%;
 
-    padding:16px;
-
-    font-size:24px;
-
-    border-radius:12px;
-
-    margin-bottom:20px;
-
-}
-
-#btnEnviar{
-
-    width:100%;
-
-    padding:18px;
-
-    background:#43A047;
-
-    color:white;
-
-    border:none;
-
-    border-radius:15px;
-
-    font-size:24px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-
-}
+/* ==========================================
+   BOTÓN REPOSICIÓN
+========================================== */
 
 #btnReposicion{
 
     width:100%;
 
-    padding:16px;
+    margin:18px 0;
 
-    margin:15px 0;
+    padding:18px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:14px;
 
-    background:#FFA726;
+    background:#FF9800;
 
     color:white;
 
-    font-size:20px;
+    font-size:22px;
 
     font-weight:bold;
 
     cursor:pointer;
+
+    transition:.25s;
+
+}
+
+#btnReposicion:hover{
+
+    background:#F57C00;
 
 }
