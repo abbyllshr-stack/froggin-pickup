@@ -263,46 +263,47 @@ async function enviarSolicitud(){
 
     try{
 
-       const resultado = await respuesta.json();
+    const respuesta = await fetch(url);
 
-        if(resultado){
+    const resultado = await respuesta.json();
 
-            mostrarMensaje(
-                "✅ Solicitud enviada",
-                `
-                Se notificó a:<br>
-                <strong>${teacher}</strong>
-                `
-            );
+    if(resultado){
 
-            cargarPendientes();
+        mostrarMensaje(
+            "✅ Solicitud enviada",
+            `
+            Se notificó a:<br>
+            <strong>${teacher}</strong>
+            `
+        );
 
-            alumnoActual = "";
+        cargarPendientes();
 
-            procesando = false;
+        alumnoActual = "";
 
-        }else{
+        procesando = false;
 
-            mostrarMensaje(
-                "❌ Error",
-                "No fue posible enviar la solicitud."
-            );
-
-            procesando = false;
-
-        }
-
-    }catch(error){
-
-        console.error(error);
+    }else{
 
         mostrarMensaje(
             "❌ Error",
-            error
+            "No fue posible enviar la solicitud."
         );
 
         procesando = false;
 
     }
 
+}catch(error){
+
+    console.error(error);
+
+    mostrarMensaje(
+        "❌ Error",
+        error
+    );
+
+    procesando = false;
+
+}
 }
