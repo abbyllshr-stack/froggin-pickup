@@ -73,8 +73,6 @@ function iniciarCamara() {
 // ==========================================
 // ESCANEO
 // ==========================================
-if(datos.encontrado){
-
    if(datos.encontrado){
 
    if(!modoReposicion){
