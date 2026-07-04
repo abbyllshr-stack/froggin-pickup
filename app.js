@@ -101,43 +101,13 @@ async function codigoDetectado(texto){
 
         if(datos.encontrado){
 
-            const urlEnviar =
-                API_URL +
-                "?action=enviar" +
-                "&id=" + encodeURIComponent(alumnoActual) +
-                "&teacher=" + encodeURIComponent(datos.teacher);
+            if(modoReposicion){
 
-            const respuestaEnviar = await fetch(urlEnviar);
-
-            const enviado = await respuestaEnviar.json();
-
-            if(enviado){
-
-                mostrarMensaje(
-                    "✅ Solicitud enviada",
-                    `
-                    <div class="nombreAlumno">
-                        ${datos.alumno}
-                    </div>
-
-                    <div class="grupoAlumno">
-                        ${datos.grupo}
-                    </div>
-
-                    <p>
-                        👩‍🏫 ${datos.teacher}
-                    </p>
-                    `
-                );
-
-                cargarPendientes();
+                mostrarPantallaReposicion(datos);
 
             }else{
 
-                mostrarMensaje(
-                    "❌ Error",
-                    "No fue posible enviar la solicitud."
-                );
+                enviarSolicitudAutomatica(datos);
 
             }
 
@@ -147,6 +117,8 @@ async function codigoDetectado(texto){
                 "❌ Alumno no encontrado",
                 ""
             );
+
+            procesando = false;
 
         }
 
@@ -159,20 +131,9 @@ async function codigoDetectado(texto){
             error
         );
 
-    }
-
-    setTimeout(()=>{
-
         procesando = false;
 
-        alumnoActual = "";
-
-        mostrarMensaje(
-            "🟢 Listo para escanear",
-            ""
-        );
-
-    },2000);
+    }
 
 }
 // ==========================================
