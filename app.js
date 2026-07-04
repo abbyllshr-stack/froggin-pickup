@@ -204,12 +204,15 @@ async function cargarPendientes(){
 
         }
 
-        alumnos.forEach(alumno=>{
+        alumnos.forEach(alumno => {
 
             lista.innerHTML += `
                 <div class="alumnoPendiente">
+
                     <strong>${alumno.alumno}</strong><br>
+
                     ${alumno.grupo}
+
                 </div>
             `;
 
