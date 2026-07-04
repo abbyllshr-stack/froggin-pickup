@@ -91,103 +91,83 @@ async function codigoDetectado(texto){
 
     try{
 
-        const respuesta = await fetch(url);
+    const respuesta = await fetch(url);
 
-        const datos = await respuesta.json();
+    const datos = await respuesta.json();
 
-        if(datos.encontrado){
-
-            mostrarMensaje(
-
-    "✅ Alumno encontrado",
-
-    `
-   `
-<div class="nombreAlumno">
-
-    ${datos.alumno}
-
-</div>
-
-<div class="grupoAlumno">
-
-    ${datos.grupo}
-
-</div>
-
-<label class="labelTeacher">
-
-    👩‍🏫 Teacher
-
-</label>
-
-<select id="teacherSelect">
-
-    <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
-
-    <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
-
-    <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
-
-</select>
-
-<br>
-
-<button id="btnEnviar">
-
-    🐸 Solicitar a Teacher
-
-</button>
-`
-
-    <label><strong>Teacher:</strong></label><br>
-
-    <select id="teacherSelect">
-
-        <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
-
-        <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
-
-        <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
-
-    </select>
-
-    <br><br>
-
-    <button id="btnEnviar">
-        📨 Enviar solicitud
-    </button>
-
-    `
-
-);
-           document.getElementById("btnEnviar").addEventListener("click", function(){
-
-    enviarSolicitud();
-
-});
-
-            cargarPendientes();
-
-        }else{
-
-            mostrarMensaje(
-                "❌ Alumno no encontrado",
-                ""
-            );
-
-        }
-
-    }catch(error){
+    if(datos.encontrado){
 
         mostrarMensaje(
-            "❌ Error",
-            error
+
+            "✅ Alumno encontrado",
+
+            `
+            <div class="nombreAlumno">
+
+                ${datos.alumno}
+
+            </div>
+
+            <div class="grupoAlumno">
+
+                ${datos.grupo}
+
+            </div>
+
+            <label class="labelTeacher">
+
+                👩‍🏫 Teacher
+
+            </label>
+
+            <select id="teacherSelect">
+
+                <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
+
+                <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
+
+                <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
+
+            </select>
+
+            <br><br>
+
+            <button id="btnEnviar">
+
+                🐸 Solicitar a ${datos.teacher}
+
+            </button>
+            `
+
         );
 
-        console.error(error);
+        document.getElementById("btnEnviar").addEventListener("click", function(){
+
+            enviarSolicitud();
+
+        });
+
+        cargarPendientes();
+
+    }else{
+
+        mostrarMensaje(
+            "❌ Alumno no encontrado",
+            ""
+        );
 
     }
+
+}catch(error){
+
+    mostrarMensaje(
+        "❌ Error",
+        error
+    );
+
+    console.error(error);
+
+}
 
 }
 // ==========================================
