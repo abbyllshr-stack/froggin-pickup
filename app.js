@@ -253,6 +253,43 @@ window.onload = () => {
         CONFIG.REFRESH_TIME
     );
 
+    const btnReposicion =
+        document.getElementById("btnReposicion");
+
+    btnReposicion.addEventListener("click", function(){
+
+        modoReposicion = !modoReposicion;
+
+        if(modoReposicion){
+
+            btnReposicion.innerHTML =
+                "❌ Cancelar reposición";
+
+            btnReposicion.style.background =
+                "#E53935";
+
+            mostrarMensaje(
+                "📚 Modo reposición",
+                "Escanea el alumno que tomará una clase de reposición."
+            );
+
+        }else{
+
+            btnReposicion.innerHTML =
+                "📚 Reposición";
+
+            btnReposicion.style.background =
+                "#FF9800";
+
+            mostrarMensaje(
+                "🟢 Listo para escanear",
+                ""
+            );
+
+        }
+
+    });
+
 };
 // ==========================================
 // ENVIAR SOLICITUD
