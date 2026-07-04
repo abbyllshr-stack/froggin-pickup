@@ -73,53 +73,71 @@ function iniciarCamara() {
 // ==========================================
 // ESCANEO
 // ==========================================
+if(datos.encontrado){
 
-async function codigoDetectado(texto){
+   if(!modoReposicion){
 
-    if(procesando) return;
-
-    procesando = true;
-    alumnoActual = texto;
-
-    mostrarMensaje(
-        "🔍 Buscando alumno...",
-        ""
-    );
-
-    const url =
+    const urlEnviar =
         API_URL +
-        "?action=buscar&id=" +
-        encodeURIComponent(texto);
+        "?action=enviar" +
+        "&id=" + encodeURIComponent(alumnoActual) +
+        "&teacher=" + encodeURIComponent(datos.teacher);
 
-    try{
+    const respuestaEnviar = await fetch(urlEnviar);
 
-    const respuesta = await fetch(url);
+    const enviado = await respuestaEnviar.json();
 
-    const datos = await respuesta.json();
-
-    if(datos.encontrado){
+    if(enviado){
 
         mostrarMensaje(
-
-            "✅ Alumno encontrado",
-
+            "✅ Solicitud enviada",
             `
             <div class="nombreAlumno">
-
                 ${datos.alumno}
-
             </div>
 
             <div class="grupoAlumno">
+                Solicitud enviada a <strong>${datos.teacher}</strong>
+            </div>
+            `
+        );
 
+        cargarPendientes();
+
+        modoReposicion = false;
+        alumnoActual = "";
+        procesando = false;
+
+        setTimeout(() => {
+
+            mostrarMensaje(
+                "🟢 Listo para escanear",
+                ""
+            );
+
+        }, 1500);
+
+    }
+
+}
+
+    }else{
+
+        mostrarMensaje(
+
+            "📚 Reposición",
+
+            `
+            <div class="nombreAlumno">
+                ${datos.alumno}
+            </div>
+
+            <div class="grupoAlumno">
                 ${datos.grupo}
-
             </div>
 
             <label class="labelTeacher">
-
                 👩‍🏫 Teacher
-
             </label>
 
             <select id="teacherSelect">
@@ -135,9 +153,7 @@ async function codigoDetectado(texto){
             <br><br>
 
             <button id="btnEnviar">
-
-                🐸 Solicitar a ${datos.teacher}
-
+                📨 Enviar solicitud
             </button>
             `
 
@@ -149,27 +165,16 @@ async function codigoDetectado(texto){
 
         });
 
-        cargarPendientes();
-
-    }else{
-
-        mostrarMensaje(
-            "❌ Alumno no encontrado",
-            ""
-        );
-
     }
 
-}catch(error){
+    cargarPendientes();
+
+}else{
 
     mostrarMensaje(
-        "❌ Error",
-        error
+        "❌ Alumno no encontrado",
+        ""
     );
-
-    console.error(error);
-
-}
 
 }
 // ==========================================
