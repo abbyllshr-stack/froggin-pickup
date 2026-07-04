@@ -100,9 +100,9 @@ function iniciarCamara() {
                 Solicitud enviada a <strong>${datos.teacher}</strong>
             </div>
             `
-        );
+            );
 
-        cargarPendientes();
+    }cargarPendientes();
 
         modoReposicion = false;
         alumnoActual = "";
