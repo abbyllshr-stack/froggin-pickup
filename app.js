@@ -253,19 +253,7 @@ window.onload = () => {
         CONFIG.REFRESH_TIME
     );
 
-    document.getElementById("btnReposicion").addEventListener("click", function(){
-
-        modoReposicion = true;
-
-        mostrarMensaje(
-            "📚 Modo reposición",
-            "Escanea el alumno."
-        );
-
-    });
-
 };
-
 // ==========================================
 // ENVIAR SOLICITUD
 // ==========================================
