@@ -74,105 +74,105 @@ function iniciarCamara() {
 // ==========================================
 // ESCANEO
 // ==========================================
-  async function codigoDetectado(texto){
-   if(!modoReposicion){
 
-    const urlEnviar =
+async function codigoDetectado(texto){
+
+    if(procesando) return;
+
+    procesando = true;
+
+    alumnoActual = texto;
+
+    mostrarMensaje(
+        "🔍 Buscando alumno...",
+        ""
+    );
+
+    const url =
         API_URL +
-        "?action=enviar" +
-        "&id=" + encodeURIComponent(alumnoActual) +
-        "&teacher=" + encodeURIComponent(datos.teacher);
+        "?action=buscar&id=" +
+        encodeURIComponent(texto);
 
-    const respuestaEnviar = await fetch(urlEnviar);
+    try{
 
-    const enviado = await respuestaEnviar.json();
+        const respuesta = await fetch(url);
 
-    if(enviado){
+        const datos = await respuesta.json();
 
-        mostrarMensaje(
-            "✅ Solicitud enviada",
-            `
-            <div class="nombreAlumno">
-                ${datos.alumno}
-            </div>
+        if(datos.encontrado){
 
-            <div class="grupoAlumno">
-                Solicitud enviada a <strong>${datos.teacher}</strong>
-            </div>
-            `
-            );
+            const urlEnviar =
+                API_URL +
+                "?action=enviar" +
+                "&id=" + encodeURIComponent(alumnoActual) +
+                "&teacher=" + encodeURIComponent(datos.teacher);
 
-    }cargarPendientes();
+            const respuestaEnviar = await fetch(urlEnviar);
 
-        modoReposicion = false;
-        alumnoActual = "";
-        procesando = false;
+            const enviado = await respuestaEnviar.json();
 
-        setTimeout(() => {
+            if(enviado){
+
+                mostrarMensaje(
+                    "✅ Solicitud enviada",
+                    `
+                    <div class="nombreAlumno">
+                        ${datos.alumno}
+                    </div>
+
+                    <div class="grupoAlumno">
+                        ${datos.grupo}
+                    </div>
+
+                    <p>
+                        👩‍🏫 ${datos.teacher}
+                    </p>
+                    `
+                );
+
+                cargarPendientes();
+
+            }else{
+
+                mostrarMensaje(
+                    "❌ Error",
+                    "No fue posible enviar la solicitud."
+                );
+
+            }
+
+        }else{
 
             mostrarMensaje(
-                "🟢 Listo para escanear",
+                "❌ Alumno no encontrado",
                 ""
             );
 
-        }, 1500);
+        }
 
-    }
+    }catch(error){
 
-    }else{
+        console.error(error);
 
         mostrarMensaje(
-
-            "📚 Reposición",
-
-            `
-            <div class="nombreAlumno">
-                ${datos.alumno}
-            </div>
-
-            <div class="grupoAlumno">
-                ${datos.grupo}
-            </div>
-
-            <label class="labelTeacher">
-                👩‍🏫 Teacher
-            </label>
-
-            <select id="teacherSelect">
-
-                <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
-
-                <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
-
-                <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
-
-            </select>
-
-            <br><br>
-
-            <button id="btnEnviar">
-                📨 Enviar solicitud
-            </button>
-            `
-
+            "❌ Error",
+            error
         );
 
-        document.getElementById("btnEnviar").addEventListener("click", function(){
-
-            enviarSolicitud();
-
-        });
-
     }
-   }
-    cargarPendientes();
 
-}else{
+    setTimeout(()=>{
 
-    mostrarMensaje(
-        "❌ Alumno no encontrado",
-        ""
-    );
+        procesando = false;
+
+        alumnoActual = "";
+
+        mostrarMensaje(
+            "🟢 Listo para escanear",
+            ""
+        );
+
+    },2000);
 
 }
 // ==========================================
