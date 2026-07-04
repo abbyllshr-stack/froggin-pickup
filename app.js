@@ -257,6 +257,7 @@ window.onload = () => {
 // ==========================================
 // ENVIAR SOLICITUD
 // ==========================================
+
 async function enviarSolicitud(){
 
     const teacher =
@@ -270,47 +271,64 @@ async function enviarSolicitud(){
 
     try{
 
-    const respuesta = await fetch(url);
+        const respuesta = await fetch(url);
 
-    const resultado = await respuesta.json();
+        const resultado = await respuesta.json();
 
-    if(resultado){
+        if(resultado){
 
-        mostrarMensaje(
-            "✅ Solicitud enviada",
-            `
-            Se notificó a:<br>
-            <strong>${teacher}</strong>
-            `
-        );
+            mostrarMensaje(
+                "✅ Solicitud enviada",
+                `
+                <div class="nombreAlumno">
+                    Solicitud enviada a
+                </div>
 
-        cargarPendientes();
+                <div class="grupoAlumno">
+                    ${teacher}
+                </div>
+                `
+            );
 
-        alumnoActual = "";
+            cargarPendientes();
 
-        procesando = false;
+            alumnoActual = "";
 
-    }else{
+            procesando = false;
+
+            modoReposicion = false;
+
+            setTimeout(() => {
+
+                mostrarMensaje(
+                    "🟢 Listo para escanear",
+                    ""
+                );
+
+            },2000);
+
+        }else{
+
+            mostrarMensaje(
+                "❌ Error",
+                "No fue posible enviar la solicitud."
+            );
+
+            procesando = false;
+
+        }
+
+    }catch(error){
+
+        console.error(error);
 
         mostrarMensaje(
             "❌ Error",
-            "No fue posible enviar la solicitud."
+            error
         );
 
         procesando = false;
 
     }
 
-}catch(error){
-
-    console.error(error);
-
-    mostrarMensaje(
-        "❌ Error",
-        error
-    );
-
-    procesando = false;
-
-}
 }
