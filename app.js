@@ -197,6 +197,89 @@ function mostrarPantallaReposicion(datos){
 
 }
 // ==========================================
+// ENVÍO AUTOMÁTICO
+// ==========================================
+
+async function enviarSolicitudAutomatica(datos){
+
+    const url =
+        API_URL +
+        "?action=enviar" +
+        "&id=" + encodeURIComponent(alumnoActual) +
+        "&teacher=" + encodeURIComponent(datos.teacher);
+
+    try{
+
+        const respuesta = await fetch(url);
+
+        const enviado = await respuesta.json();
+
+        if(enviado){
+
+            mostrarMensaje(
+                "✅ Solicitud enviada",
+                `
+                <div class="nombreAlumno">
+
+                    ${datos.alumno}
+
+                </div>
+
+                <div class="grupoAlumno">
+
+                    ${datos.grupo}
+
+                </div>
+
+                <p>
+
+                    👩‍🏫 ${datos.teacher}
+
+                </p>
+                `
+            );
+
+            cargarPendientes();
+
+            alumnoActual = "";
+
+            procesando = false;
+
+            setTimeout(function(){
+
+                mostrarMensaje(
+                    "🟢 Listo para escanear",
+                    ""
+                );
+
+            },2000);
+
+        }else{
+
+            mostrarMensaje(
+                "❌ Error",
+                "No fue posible enviar la solicitud."
+            );
+
+            procesando = false;
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarMensaje(
+            "❌ Error",
+            error
+        );
+
+        procesando = false;
+
+    }
+
+}
+// ==========================================
 // PENDIENTES
 // ==========================================
 
