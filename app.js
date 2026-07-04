@@ -26,50 +26,51 @@ function iniciarCamara() {
 
     .then(cameras => {
 
-        if (cameras.length === 0) {
+        if(cameras.length === 0){
+
             throw "No se encontró ninguna cámara.";
+
         }
 
-       return reader.start(
+        return reader.start(
 
-    {
-        facingMode: "environment"
-    },
+            {
+                facingMode: "environment"
+            },
 
-    {
+            {
 
-        fps: 5,
+                fps: 5,
 
-        qrbox: {
-            width: 240,
-            height: 240
-        },
+                qrbox: {
+                    width: 240,
+                    height: 240
+                },
 
-        aspectRatio: 1,
+                aspectRatio: 1,
 
-        disableFlip: true
+                disableFlip: true
 
-    },
+            },
 
-    codigoDetectado
+            codigoDetectado
 
-);
+        );
 
     })
 
     .catch(error => {
+
+        console.error(error);
 
         mostrarMensaje(
             "❌ Error",
             error
         );
 
-        console.error(error);
-
     });
 
 }
-
 // ==========================================
 // ESCANEO
 // ==========================================
