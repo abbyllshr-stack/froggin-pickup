@@ -14,6 +14,8 @@ let procesando = false;
 
 let alumnoActual = "";
 
+let modoReposicion = false;
+
 // ==========================================
 // CÁMARA
 // ==========================================
