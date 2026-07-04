@@ -248,7 +248,16 @@ window.onload = () => {
     );
 
 };
+document.getElementById("btnReposicion").addEventListener("click", function(){
 
+    modoReposicion = true;
+
+    mostrarMensaje(
+        "📚 Modo reposición",
+        "Escanea el alumno."
+    );
+
+});
 // ==========================================
 // ENVIAR SOLICITUD
 // ==========================================
