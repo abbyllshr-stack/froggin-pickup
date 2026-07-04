@@ -119,7 +119,6 @@ function iniciarCamara() {
 
     }
 
-}
     }else{
 
         mostrarMensaje(
