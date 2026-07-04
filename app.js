@@ -77,15 +77,51 @@ if(datos.encontrado){
 
    if(datos.encontrado){
 
-    if(!modoReposicion){
+   if(!modoReposicion){
+
+    const urlEnviar =
+        API_URL +
+        "?action=enviar" +
+        "&id=" + encodeURIComponent(alumnoActual) +
+        "&teacher=" + encodeURIComponent(datos.teacher);
+
+    const respuestaEnviar = await fetch(urlEnviar);
+
+    const enviado = await respuestaEnviar.json();
+
+    if(enviado){
 
         mostrarMensaje(
-            "⏳ Enviando solicitud...",
-            ""
+            "✅ Solicitud enviada",
+            `
+            <div class="nombreAlumno">
+                ${datos.alumno}
+            </div>
+
+            <div class="grupoAlumno">
+                Solicitud enviada a <strong>${datos.teacher}</strong>
+            </div>
+            `
         );
 
-        // Aquí irá el envío automático (en el siguiente paso)
+        cargarPendientes();
 
+        modoReposicion = false;
+        alumnoActual = "";
+        procesando = false;
+
+        setTimeout(() => {
+
+            mostrarMensaje(
+                "🟢 Listo para escanear",
+                ""
+            );
+
+        }, 1500);
+
+    }
+
+}
     }else{
 
         mostrarMensaje(
