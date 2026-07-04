@@ -73,8 +73,7 @@ function iniciarCamara() {
 // ==========================================
 // ESCANEO
 // ==========================================
-   if(datos.encontrado){
-
+  async function codigoDetectado(texto){
    if(!modoReposicion){
 
     const urlEnviar =
