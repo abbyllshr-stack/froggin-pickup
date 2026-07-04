@@ -102,8 +102,43 @@ async function codigoDetectado(texto){
     "✅ Alumno encontrado",
 
     `
-    <strong>${datos.alumno}</strong><br>
-    ${datos.grupo}<br><br>
+   `
+<div class="nombreAlumno">
+
+    ${datos.alumno}
+
+</div>
+
+<div class="grupoAlumno">
+
+    ${datos.grupo}
+
+</div>
+
+<label class="labelTeacher">
+
+    👩‍🏫 Teacher
+
+</label>
+
+<select id="teacherSelect">
+
+    <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
+
+    <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
+
+    <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
+
+</select>
+
+<br>
+
+<button id="btnEnviar">
+
+    🐸 Solicitar a Teacher
+
+</button>
+`
 
     <label><strong>Teacher:</strong></label><br>
 
@@ -248,13 +283,7 @@ async function enviarSolicitud(){
 
     try{
 
-        const respuesta = await fetch(url);
-
-      const texto = await respuesta.text();
-
-console.log(texto);
-
-return;
+       const resultado = await respuesta.json();
 
         if(resultado){
 
