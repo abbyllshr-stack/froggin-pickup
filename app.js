@@ -176,6 +176,66 @@ async function codigoDetectado(texto){
 
 }
 // ==========================================
+// PANTALLA REPOSICIÓN
+// ==========================================
+
+function mostrarPantallaReposicion(datos){
+
+    mostrarMensaje(
+
+        "📚 Reposición",
+
+        `
+        <div class="nombreAlumno">
+
+            ${datos.alumno}
+
+        </div>
+
+        <div class="grupoAlumno">
+
+            ${datos.grupo}
+
+        </div>
+
+        <br>
+
+        <label class="labelTeacher">
+
+            👩‍🏫 Teacher
+
+        </label>
+
+        <br><br>
+
+        <select id="teacherSelect">
+
+            <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
+
+            <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
+
+            <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
+
+        </select>
+
+        <br><br>
+
+        <button id="btnEnviar">
+
+            📨 Enviar solicitud
+
+        </button>
+
+        `
+
+    );
+
+    document
+        .getElementById("btnEnviar")
+        .addEventListener("click", enviarSolicitud);
+
+}
+// ==========================================
 // PENDIENTES
 // ==========================================
 
