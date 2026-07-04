@@ -124,3 +124,70 @@ h2{
     transform:scale(.97);
 
 }
+.nombreAlumno{
+
+    font-size:34px;
+
+    font-weight:bold;
+
+    margin-top:15px;
+
+}
+
+.grupoAlumno{
+
+    font-size:24px;
+
+    color:#666;
+
+    margin-bottom:25px;
+
+}
+
+.labelTeacher{
+
+    display:block;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+#teacherSelect{
+
+    width:100%;
+
+    padding:16px;
+
+    font-size:24px;
+
+    border-radius:12px;
+
+    margin-bottom:20px;
+
+}
+
+#btnEnviar{
+
+    width:100%;
+
+    padding:18px;
+
+    background:#43A047;
+
+    color:white;
+
+    border:none;
+
+    border-radius:15px;
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
