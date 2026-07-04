@@ -75,51 +75,16 @@ function iniciarCamara() {
 // ==========================================
 if(datos.encontrado){
 
-   if(!modoReposicion){
+   if(datos.encontrado){
 
-    const urlEnviar =
-        API_URL +
-        "?action=enviar" +
-        "&id=" + encodeURIComponent(alumnoActual) +
-        "&teacher=" + encodeURIComponent(datos.teacher);
-
-    const respuestaEnviar = await fetch(urlEnviar);
-
-    const enviado = await respuestaEnviar.json();
-
-    if(enviado){
+    if(!modoReposicion){
 
         mostrarMensaje(
-            "✅ Solicitud enviada",
-            `
-            <div class="nombreAlumno">
-                ${datos.alumno}
-            </div>
-
-            <div class="grupoAlumno">
-                Solicitud enviada a <strong>${datos.teacher}</strong>
-            </div>
-            `
+            "⏳ Enviando solicitud...",
+            ""
         );
 
-        cargarPendientes();
-
-        modoReposicion = false;
-        alumnoActual = "";
-        procesando = false;
-
-        setTimeout(() => {
-
-            mostrarMensaje(
-                "🟢 Listo para escanear",
-                ""
-            );
-
-        }, 1500);
-
-    }
-
-}
+        // Aquí irá el envío automático (en el siguiente paso)
 
     }else{
 
@@ -166,7 +131,7 @@ if(datos.encontrado){
         });
 
     }
-
+   }
     cargarPendientes();
 
 }else{
