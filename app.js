@@ -99,24 +99,44 @@ async function codigoDetectado(texto){
 
         const datos = await respuesta.json();
 
-       if(datos.encontrado){
+        if(!datos.encontrado){
 
-    if(modoReposicion){
+            mostrarMensaje(
+                "❌ Alumno no encontrado",
+                ""
+            );
 
-        // Por ahora tomamos el primero
-        mostrarPantallaReposicion(datos.alumnos[0]);
+            procesando = false;
 
-    }else{
+            return;
+
+        }
+
+        // ==========================
+        // MODO REPOSICIÓN
+        // ==========================
+
+        if(modoReposicion){
+
+            // Por ahora usamos el primer registro
+            // Después mejoraremos esta parte
+            mostrarPantallaReposicion(datos.alumnos[0]);
+
+            procesando = false;
+
+            return;
+
+        }
+
+        // ==========================
+        // ENVÍO AUTOMÁTICO
+        // ==========================
 
         for(const alumno of datos.alumnos){
 
             await enviarSolicitudAutomatica(alumno);
 
         }
-
-    }
-
-}
 
     }catch(error){
 
