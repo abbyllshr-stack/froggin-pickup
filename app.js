@@ -405,10 +405,9 @@ async function enviarSolicitud(){
         document.getElementById("teacherSelect").value;
 
     const url =
-        API_URL +
-        "?action=enviar" +
-        "&id=" + encodeURIComponent(alumnoActual) +
-        "&teacher=" + encodeURIComponent(teacher);
+    API_URL +
+    "?action=enviar" +
+    "&id=" + encodeURIComponent(alumnoActual);
 
     try{
 
