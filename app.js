@@ -216,7 +216,7 @@ function mostrarPantallaReposicion(datos){
 // ENVÍO AUTOMÁTICO
 // ==========================================
 
-async function enviarSolicitudAutomatica(datos){
+await enviarSolicitudGrupo(datos.alumnos);
 
     const url =
         API_URL +
@@ -293,6 +293,64 @@ async function enviarSolicitudAutomatica(datos){
         procesando = false;
 
     }
+
+}
+
+// ==========================================
+// ENVÍO DE GRUPO
+// ==========================================
+
+async function enviarSolicitudGrupo(lista){
+
+    let nombre = "";
+
+    for(const alumno of lista){
+
+        nombre = alumno.alumno;
+
+        const url =
+            API_URL +
+            "?action=enviar" +
+            "&id=" + encodeURIComponent(alumnoActual);
+
+        await fetch(url);
+
+    }
+
+    mostrarMensaje(
+
+        "✅ Solicitud enviada",
+
+        `
+        <div class="nombreAlumno">
+
+            ${nombre}
+
+        </div>
+
+        <div class="grupoAlumno">
+
+            Se enviaron ${lista.length} solicitudes.
+
+        </div>
+        `
+
+    );
+
+    cargarPendientes();
+
+    alumnoActual = "";
+
+    procesando = false;
+
+    setTimeout(function(){
+
+        mostrarMensaje(
+            "🟢 Listo para escanear",
+            ""
+        );
+
+    },2000);
 
 }
 // ==========================================
