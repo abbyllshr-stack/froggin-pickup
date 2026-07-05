@@ -99,28 +99,24 @@ async function codigoDetectado(texto){
 
         const datos = await respuesta.json();
 
-        if(datos.encontrado){
+       if(datos.encontrado){
 
-            if(modoReposicion){
+    if(modoReposicion){
 
-                mostrarPantallaReposicion(datos);
+        // Por ahora tomamos el primero
+        mostrarPantallaReposicion(datos.alumnos[0]);
 
-            }else{
+    }else{
 
-                enviarSolicitudAutomatica(datos);
+        for(const alumno of datos.alumnos){
 
-            }
-
-        }else{
-
-            mostrarMensaje(
-                "❌ Alumno no encontrado",
-                ""
-            );
-
-            procesando = false;
+            await enviarSolicitudAutomatica(alumno);
 
         }
+
+    }
+
+}
 
     }catch(error){
 
