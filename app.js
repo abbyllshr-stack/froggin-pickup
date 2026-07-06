@@ -99,7 +99,19 @@ async function codigoDetectado(texto){
 
         const datos = await respuesta.json();
 
-        if(!datos.encontrado){
+        if(datos.encontrado){
+
+            if(modoReposicion){
+
+                mostrarPantallaReposicion(datos);
+
+            }else{
+
+                enviarSolicitudAutomatica(datos);
+
+            }
+
+        }else{
 
             mostrarMensaje(
                 "❌ Alumno no encontrado",
@@ -107,34 +119,6 @@ async function codigoDetectado(texto){
             );
 
             procesando = false;
-
-            return;
-
-        }
-
-        // ==========================
-        // MODO REPOSICIÓN
-        // ==========================
-
-        if(modoReposicion){
-
-            // Por ahora usamos el primer registro
-            // Después mejoraremos esta parte
-            mostrarPantallaReposicion(datos.alumnos[0]);
-
-            procesando = false;
-
-            return;
-
-        }
-
-        // ==========================
-        // ENVÍO AUTOMÁTICO
-        // ==========================
-
-        for(const alumno of datos.alumnos){
-
-            await enviarSolicitudAutomatica(alumno);
 
         }
 
@@ -216,7 +200,7 @@ function mostrarPantallaReposicion(datos){
 // ENVÍO AUTOMÁTICO
 // ==========================================
 
-await enviarSolicitudGrupo(datos.alumnos);
+async function enviarSolicitudAutomatica(datos){
 
     const url =
         API_URL +
@@ -293,64 +277,6 @@ await enviarSolicitudGrupo(datos.alumnos);
         procesando = false;
 
     }
-
-}
-
-// ==========================================
-// ENVÍO DE GRUPO
-// ==========================================
-
-async function enviarSolicitudGrupo(lista){
-
-    let nombre = "";
-
-    for(const alumno of lista){
-
-        nombre = alumno.alumno;
-
-        const url =
-            API_URL +
-            "?action=enviar" +
-            "&id=" + encodeURIComponent(alumnoActual);
-
-        await fetch(url);
-
-    }
-
-    mostrarMensaje(
-
-        "✅ Solicitud enviada",
-
-        `
-        <div class="nombreAlumno">
-
-            ${nombre}
-
-        </div>
-
-        <div class="grupoAlumno">
-
-            Se enviaron ${lista.length} solicitudes.
-
-        </div>
-        `
-
-    );
-
-    cargarPendientes();
-
-    alumnoActual = "";
-
-    procesando = false;
-
-    setTimeout(function(){
-
-        mostrarMensaje(
-            "🟢 Listo para escanear",
-            ""
-        );
-
-    },2000);
 
 }
 // ==========================================
