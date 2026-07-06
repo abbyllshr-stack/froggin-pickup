@@ -202,11 +202,10 @@ function mostrarPantallaReposicion(datos){
 
 async function enviarSolicitudAutomatica(datos){
 
-    const url =
-        API_URL +
-        "?action=enviar" +
-        "&id=" + encodeURIComponent(alumnoActual) +
-        "&teacher=" + encodeURIComponent(datos.teacher);
+const url =
+    API_URL +
+    "?action=enviar" +
+    "&id=" + encodeURIComponent(alumnoActual);
 
     try{
 
