@@ -311,7 +311,7 @@ async function cargarPendientes(){
         // ==========================
 
         lista.innerHTML += `
-            <h3>🟢 Pendientes (${pendientes.length})</h3>
+            <h3>⚠️ Pendientes (${pendientes.length})</h3>
         `;
 
         if(pendientes.length == 0){
