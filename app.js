@@ -296,30 +296,81 @@ async function cargarPendientes(){
 
         if(!lista) return;
 
+        const pendientes = alumnos.filter(
+            alumno => alumno.estado == "Pendiente"
+        );
+
+        const entregados = alumnos.filter(
+            alumno => alumno.estado == "Entregado"
+        );
+
         lista.innerHTML = "";
 
-        if(alumnos.length === 0){
+        // ==========================
+        // PENDIENTES
+        // ==========================
 
-            lista.innerHTML =
-                "<p>🐸 No hay alumnos pendientes.</p>";
+        lista.innerHTML += `
+            <h3>🟢 Pendientes (${pendientes.length})</h3>
+        `;
 
-            return;
+        if(pendientes.length == 0){
+
+            lista.innerHTML += `
+                <p>Sin alumnos pendientes.</p>
+            `;
+
+        }else{
+
+            pendientes.forEach(alumno=>{
+
+                lista.innerHTML += `
+                    <div class="alumnoPendiente">
+
+                        <strong>${alumno.alumno}</strong><br>
+
+                        ${alumno.grupo}
+
+                    </div>
+                `;
+
+            });
 
         }
 
-        alumnos.forEach(alumno => {
+        // ==========================
+        // ENTREGADOS
+        // ==========================
+
+        lista.innerHTML += `
+            <hr>
+
+            <h3>✅ Entregados (${entregados.length})</h3>
+        `;
+
+        if(entregados.length == 0){
 
             lista.innerHTML += `
-                <div class="alumnoPendiente">
-
-                    <strong>${alumno.alumno}</strong><br>
-
-                    ${alumno.grupo}
-
-                </div>
+                <p>Aún no hay alumnos entregados.</p>
             `;
 
-        });
+        }else{
+
+            entregados.forEach(alumno=>{
+
+                lista.innerHTML += `
+                    <div class="alumnoPendiente">
+
+                        <strong>${alumno.alumno}</strong><br>
+
+                        ${alumno.grupo}
+
+                    </div>
+                `;
+
+            });
+
+        }
 
     }catch(error){
 
@@ -328,7 +379,6 @@ async function cargarPendientes(){
     }
 
 }
-
 // ==========================================
 // INTERFAZ
 // ==========================================
