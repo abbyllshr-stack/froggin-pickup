@@ -140,60 +140,85 @@ async function codigoDetectado(texto){
 // PANTALLA REPOSICIÓN
 // ==========================================
 
-function mostrarPantallaReposicion(datos){
+async function mostrarPantallaReposicion(datos){
 
     mostrarMensaje(
-
         "📚 Reposición",
-
         `
         <div class="nombreAlumno">
-
             ${datos.alumno}
-
         </div>
 
         <div class="grupoAlumno">
-
             ${datos.grupo}
-
         </div>
 
         <br>
 
         <label class="labelTeacher">
-
             👩‍🏫 Teacher
-
         </label>
 
         <br><br>
 
         <select id="teacherSelect">
-
-            <option ${datos.teacher=="Angel"?"selected":""}>Angel</option>
-
-            <option ${datos.teacher=="Chantal"?"selected":""}>Chantal</option>
-
-            <option ${datos.teacher=="Mariana"?"selected":""}>Mariana</option>
-
         </select>
 
         <br><br>
 
         <button id="btnEnviar">
-
             📨 Enviar solicitud
-
         </button>
-
         `
-
     );
 
+    // ==========================
+    // Cargar teachers
+    // ==========================
+
+    const respuesta = await fetch(
+        API_URL + "?action=teachers"
+    );
+
+    const lista = await respuesta.json();
+
+    const select =
+        document.getElementById("teacherSelect");
+
+    // Limpiar opciones anteriores
+    select.innerHTML = "";
+
+    // Opción inicial
+    const opcionInicial =
+        document.createElement("option");
+
+    opcionInicial.value = "";
+    opcionInicial.textContent = "Select a teacher";
+    opcionInicial.disabled = true;
+    opcionInicial.selected = true;
+
+    select.appendChild(opcionInicial);
+
+    // Agregar teachers
+    lista.forEach(teacher => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = teacher;
+        option.textContent = teacher;
+
+        select.appendChild(option);
+
+    });
+
+    // Evento del botón
     document
         .getElementById("btnEnviar")
-        .addEventListener("click", enviarSolicitud);
+        .addEventListener(
+            "click",
+            enviarSolicitud
+        );
 
 }
 // ==========================================
@@ -292,49 +317,76 @@ async function cargarPendientes(){
 
         const alumnos = await respuesta.json();
 
-        const lista = document.getElementById("listaPendientes");
+        const lista =
+        document.getElementById("listaPendientes");
 
         if(!lista) return;
 
-        const pendientes = alumnos.filter(
-            alumno => alumno.estado == "Pendiente"
-        );
-
-        const entregados = alumnos.filter(
-            alumno => alumno.estado == "Entregado"
-        );
-
         lista.innerHTML = "";
+
+        const pendientes =
+        alumnos.filter(a => a.estado == "Pendiente");
+
+        const entregados =
+        alumnos.filter(a => a.estado == "Entregado");
+
+        if(
+            pendientes.length == 0 &&
+            entregados.length == 0
+        ){
+
+            lista.innerHTML =
+                "<p>🐸 No hay alumnos.</p>";
+
+            return;
+
+        }
 
         // ==========================
         // PENDIENTES
         // ==========================
 
         lista.innerHTML += `
-            <h3>⚠️ Pendientes (${pendientes.length})</h3>
+
+            <h3>
+                🟡 Pendientes (${pendientes.length})
+            </h3>
+
         `;
 
-        if(pendientes.length == 0){
+        if(pendientes.length){
 
-            lista.innerHTML += `
-                <p>Sin alumnos pendientes.</p>
-            `;
-
-        }else{
-
-            pendientes.forEach(alumno=>{
+            pendientes.forEach(alumno => {
 
                 lista.innerHTML += `
+
                     <div class="alumnoPendiente">
 
-                        <strong>${alumno.alumno}</strong><br>
+                        <strong>
+
+                            ${alumno.alumno}
+
+                        </strong>
+
+                        <br>
 
                         ${alumno.grupo}
 
+                        <br>
+
+                        👩‍🏫 ${alumno.teacher}
+
                     </div>
+
                 `;
 
             });
+
+        }else{
+
+            lista.innerHTML += `
+                <p>No hay pendientes.</p>
+            `;
 
         }
 
@@ -343,32 +395,50 @@ async function cargarPendientes(){
         // ==========================
 
         lista.innerHTML += `
+
             <hr>
 
-            <h3>✅ Entregados (${entregados.length})</h3>
+            <h3>
+                ✅ Entregados (${entregados.length})
+            </h3>
+
         `;
 
-        if(entregados.length == 0){
+        if(entregados.length){
 
-            lista.innerHTML += `
-                <p>Aún no hay alumnos entregados.</p>
-            `;
-
-        }else{
-
-            entregados.forEach(alumno=>{
+            entregados.forEach(alumno => {
 
                 lista.innerHTML += `
-                    <div class="alumnoPendiente">
 
-                        <strong>${alumno.alumno}</strong><br>
+                    <div
+                        class="alumnoPendiente"
+                        style="opacity:.55;">
+
+                        <strong>
+
+                            ${alumno.alumno}
+
+                        </strong>
+
+                        <br>
 
                         ${alumno.grupo}
 
+                        <br>
+
+                        👩‍🏫 ${alumno.teacher}
+
                     </div>
+
                 `;
 
             });
+
+        }else{
+
+            lista.innerHTML += `
+                <p>No hay entregados.</p>
+            `;
 
         }
 
@@ -425,7 +495,7 @@ window.onload = () => {
                 "📚 Modo reposición",
                 "Escanea el alumno que tomará una clase de reposición."
             );
-
+            
         }else{
 
             btnReposicion.innerHTML =
