@@ -187,13 +187,8 @@ function mostrarPantallaTeacher(datos){
 
             <option value="2">2 hours</option>
 
-            <option value="3">3 hours</option>
-
             <option value="4">4 hours</option>
 
-            <option value="5">5 hours</option>
-
-            <option value="6">6 hours</option>
 
         </select>
 
