@@ -84,7 +84,7 @@ async function codigoDetectado(texto){
     alumnoActual = texto;
 
     mostrarMensaje(
-        "🔍 Buscando alumno...",
+        "🔍 Buscando...",
         ""
     );
 
@@ -99,26 +99,50 @@ async function codigoDetectado(texto){
 
         const datos = await respuesta.json();
 
-        if(datos.encontrado){
+        // ==========================
+        // NO ENCONTRADO
+        // ==========================
 
-            if(modoReposicion){
-
-                mostrarPantallaReposicion(datos);
-
-            }else{
-
-                enviarSolicitudAutomatica(datos);
-
-            }
-
-        }else{
+        if(!datos.encontrado){
 
             mostrarMensaje(
-                "❌ Alumno no encontrado",
+                "❌ Código no encontrado",
                 ""
             );
 
             procesando = false;
+
+            return;
+
+        }
+
+
+        // ==========================
+        // ES TEACHER
+        // ==========================
+
+        if(datos.tipo == "teacher"){
+
+            mostrarPantallaTeacher(datos);
+
+            procesando = false;
+
+            return;
+
+        }
+
+
+        // ==========================
+        // ES ALUMNO
+        // ==========================
+
+        if(modoReposicion){
+
+            mostrarPantallaReposicion(datos);
+
+        }else{
+
+            enviarSolicitudAutomatica(datos);
 
         }
 
