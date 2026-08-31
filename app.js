@@ -160,6 +160,140 @@ async function codigoDetectado(texto){
     }
 
 }
+// ============================
+// MOSTRAR PANTALLA TEACHER
+// ============================
+
+function mostrarPantallaTeacher(datos){
+
+    const resultado =
+        document.getElementById("resultado");
+
+    resultado.innerHTML = `
+
+        <h2>👩‍🏫 ${datos.nombre}</h2>
+
+        <p>
+            Select working hours
+        </p>
+
+        <select id="horasTeacher">
+
+            <option value="">
+                Select hours
+            </option>
+
+            <option value="1">1 hour</option>
+
+            <option value="2">2 hours</option>
+
+            <option value="3">3 hours</option>
+
+            <option value="4">4 hours</option>
+
+            <option value="5">5 hours</option>
+
+            <option value="6">6 hours</option>
+
+        </select>
+
+        <br><br>
+
+        <button
+            id="btnRegistrarTeacher"
+            onclick="registrarTeacher('${datos.id}')">
+
+            ✅ Register teacher
+
+        </button>
+
+    `;
+
+}
+// ============================
+// REGISTRAR TEACHER
+// ============================
+
+async function registrarTeacher(id){
+
+    const selectHoras =
+        document.getElementById("horasTeacher");
+
+    const horas =
+        selectHoras.value;
+
+    // ==========================
+    // VALIDAR HORAS
+    // ==========================
+
+    if(!horas){
+
+        alert(
+            "Please select working hours."
+        );
+
+        return;
+
+    }
+
+    try{
+
+        mostrarMensaje(
+            "⏳ Registering teacher...",
+            ""
+        );
+
+        const url =
+            API_URL +
+            "?action=registrarTeacher" +
+            "&id=" +
+            encodeURIComponent(id) +
+            "&horas=" +
+            encodeURIComponent(horas);
+
+        const respuesta =
+            await fetch(url);
+
+        const resultado =
+            await respuesta.json();
+
+        console.log(resultado);
+
+        // ==========================
+        // REGISTRO EXITOSO
+        // ==========================
+
+        if(resultado.exito){
+
+            mostrarMensaje(
+                resultado.mensaje,
+                ""
+            );
+
+        }else{
+
+            mostrarMensaje(
+                "❌ Could not register teacher",
+                resultado.mensaje || ""
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        mostrarMensaje(
+            "❌ Error registering teacher",
+            ""
+        );
+
+    }
+
+    // Permitir volver a escanear
+    procesando = false;
+
+}
 // ==========================================
 // PANTALLA REPOSICIÓN
 // ==========================================
