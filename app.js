@@ -803,6 +803,26 @@ cargarTeachers()
 // PANTALLA HISTORIAL
 // ==========================================
 
+// ==========================================
+// VOLVER AL INICIO
+// ==========================================
+
+function volverInicio(){
+
+    // Permitir escanear nuevamente
+    procesando = false;
+
+    // Limpiar alumno actual
+    alumnoActual = "";
+
+    // Regresar mensaje inicial
+    mostrarMensaje(
+        "🟢 Listo para escanear",
+        ""
+    );
+
+}
+
 function mostrarPantallaHistorial(){
 
     const resultado =
