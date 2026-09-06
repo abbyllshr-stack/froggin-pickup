@@ -131,33 +131,36 @@ async function codigoDetectado(texto){
 
         }
 
+// ==========================
+// ES ALUMNO
+// ==========================
 
-        // ==========================
-        // ES ALUMNO
-        // ==========================
+console.log("DATOS DEL ALUMNO:", datos);
+console.log("CLASE HOY:", datos.claseHoy);
+console.log("FRECUENCIA:", datos.frecuencia);
 
-        if(modoReposicion){
+if(datos.claseHoy === true){
 
-            mostrarPantallaReposicion(datos);
+    // 🟢 Hoy le corresponde su clase normal
+    await enviarSolicitudAutomatica(datos);
 
-        }else{
+}else if(datos.claseHoy === false){
 
-            enviarSolicitudAutomatica(datos);
+    // 📚 Hoy no le corresponde clase:
+    // se detecta automáticamente como reposición
+    await mostrarPantallaReposicion(datos);
 
-        }
+}else{
 
-    }catch(error){
+    mostrarMensaje(
+        "❌ Error de frecuencia",
+        "No se pudo determinar si el alumno tiene clase hoy."
+    );
 
-        console.error(error);
+    console.log("Valor recibido:", datos.claseHoy);
+    console.log("Datos completos:", datos);
 
-        mostrarMensaje(
-            "❌ Error",
-            error
-        );
-
-        procesando = false;
-
-    }
+    procesando = false;
 
 }
 // ============================
