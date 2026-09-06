@@ -132,21 +132,24 @@ async function codigoDetectado(texto){
         }
 
 
-        // ==========================
-        // ES ALUMNO
-        // ==========================
+// ==========================
+// ES ALUMNO
+// ==========================
 
-       console.log("DATOS DEL ALUMNO:", datos);
+console.log("DATOS DEL ALUMNO:", datos);
 console.log("CLASE HOY:", datos.claseHoy);
 console.log("FRECUENCIA:", datos.frecuencia);
 
 if(datos.claseHoy === true){
 
-    enviarSolicitudAutomatica(datos);
+    // 🟢 Hoy le corresponde su clase normal
+    await enviarSolicitudAutomatica(datos);
 
 }else if(datos.claseHoy === false){
 
-    mostrarPantallaReposicion(datos);
+    // 📚 Hoy no le corresponde clase:
+    // se detecta automáticamente como reposición
+    await mostrarPantallaReposicion(datos);
 
 }else{
 
@@ -155,22 +158,10 @@ if(datos.claseHoy === true){
         "No se pudo determinar si el alumno tiene clase hoy."
     );
 
+    console.log("Valor recibido:", datos.claseHoy);
+    console.log("Datos completos:", datos);
+
     procesando = false;
-
-}
-
-    }catch(error){
-
-        console.error(error);
-
-        mostrarMensaje(
-            "❌ Error",
-            error
-        );
-
-        procesando = false;
-
-    }
 
 }
 // ============================
