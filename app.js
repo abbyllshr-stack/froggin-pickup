@@ -799,6 +799,10 @@ cargarTeachers()
 // PANTALLA HISTORIAL
 // ==========================================
 
+// ==========================================
+// PANTALLA HISTORIAL
+// ==========================================
+
 function mostrarPantallaHistorial(){
 
     const resultado =
@@ -903,6 +907,12 @@ function mostrarPantallaHistorial(){
     `;
 
 
+    // CARGAR LAS LISTAS
+    cargarAlumnosHistorial();
+    cargarGruposHistorial();
+
+
+    // BOTÓN SEARCH
     document
         .getElementById("btnBuscarHistorial")
         .addEventListener(
@@ -911,6 +921,7 @@ function mostrarPantallaHistorial(){
         );
 
 
+    // BOTÓN BACK
     document
         .getElementById("btnVolver")
         .addEventListener(
@@ -919,6 +930,95 @@ function mostrarPantallaHistorial(){
         );
 
 }
+// ==========================================
+// CARGAR ALUMNOS PARA HISTORIAL
+// ==========================================
+
+async function cargarAlumnosHistorial(){
+
+    try{
+
+        const respuesta =
+            await fetch(
+                API_URL + "?action=alumnos"
+            );
+
+        const alumnos =
+            await respuesta.json();
+
+        const select =
+            document.getElementById(
+                "filtroAlumno"
+            );
+
+        alumnos.forEach(alumno => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = alumno;
+            option.textContent = alumno;
+
+            select.appendChild(option);
+
+        });
+
+    }catch(error){
+
+        console.error(
+            "Error cargando alumnos:",
+            error
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// CARGAR GRUPOS PARA HISTORIAL
+// ==========================================
+
+async function cargarGruposHistorial(){
+
+    try{
+
+        const respuesta =
+            await fetch(
+                API_URL + "?action=grupos"
+            );
+
+        const grupos =
+            await respuesta.json();
+
+        const select =
+            document.getElementById(
+                "filtroGrupo"
+            );
+
+        grupos.forEach(grupo => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = grupo;
+            option.textContent = grupo;
+
+            select.appendChild(option);
+
+        });
+
+    }catch(error){
+
+        console.error(
+            "Error cargando grupos:",
+            error
+        );
+
+    }
+
+}
+
 // ==========================================
 // BUSCAR HISTORIAL
 // ==========================================
