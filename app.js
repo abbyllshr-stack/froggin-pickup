@@ -918,11 +918,11 @@ function mostrarPantallaHistorial(){
 
         <br><br>
 
-        <button id="btnVolver">
+        <button id="btnCerrarHistorial">
 
-            ← Back
+    ✕ Close
 
-        </button>
+</button>
 
     `;
 
@@ -941,13 +941,13 @@ function mostrarPantallaHistorial(){
         );
 
 
-    // BOTÓN BACK
+    // BOTÓN CLOSE
     document
-        .getElementById("btnVolver")
-        .addEventListener(
-            "click",
-            volverInicio
-        );
+    .getElementById("btnCerrarHistorial")
+    .addEventListener(
+        "click",
+        cerrarHistorial
+    );
 
 }
 // ==========================================
@@ -1279,5 +1279,19 @@ function mostrarResultadosHistorial(datos){
 
 
     resultado.innerHTML = html;
+
+}
+// ==========================================
+// CERRAR HISTORIAL
+// ==========================================
+
+function cerrarHistorial(){
+
+    mostrarMensaje(
+        "🟢 Listo para escanear",
+        ""
+    );
+
+    procesando = false;
 
 }
