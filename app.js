@@ -807,7 +807,7 @@ cargarTeachers()
 // VOLVER AL INICIO
 // ==========================================
 
-function volverInicio(){
+function volver(){
 
     // Permitir escanear nuevamente
     procesando = false;
