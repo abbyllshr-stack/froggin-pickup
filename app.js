@@ -136,15 +136,22 @@ async function codigoDetectado(texto){
         // ES ALUMNO
         // ==========================
 
-        if(modoReposicion){
+        if(datos.claseHoy){
 
-            mostrarPantallaReposicion(datos);
+```
+// 🟢 Hoy le corresponde su clase normal
+enviarSolicitudAutomatica(datos);
+```
 
-        }else{
+}else{
 
-            enviarSolicitudAutomatica(datos);
+```
+// 📚 Hoy no le corresponde clase:
+// se detecta automáticamente como reposición
+mostrarPantallaReposicion(datos);
+```
 
-        }
+}
 
     }catch(error){
 
