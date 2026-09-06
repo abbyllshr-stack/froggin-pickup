@@ -136,8 +136,18 @@ async function codigoDetectado(texto){
 // ==========================
 
 console.log("DATOS DEL ALUMNO:", datos);
-console.log("CLASE HOY:", datos.claseHoy);
-console.log("FRECUENCIA:", datos.frecuencia);
+console.log("DATOS DEL ALUMNO:", datos);
+
+console.log(
+    "CLASE HOY:",
+    datos.claseHoy,
+    typeof datos.claseHoy
+);
+
+console.log(
+    "FRECUENCIA:",
+    datos.frecuencia
+);
 
 if(datos.claseHoy === true){
 
