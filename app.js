@@ -919,3 +919,245 @@ function mostrarPantallaHistorial(){
         );
 
 }
+// ==========================================
+// BUSCAR HISTORIAL
+// ==========================================
+
+async function buscarHistorial(){
+
+    // ==========================
+    // OBTENER FILTROS
+    // ==========================
+
+    const alumno =
+        document.getElementById("filtroAlumno").value;
+
+    const grupo =
+        document.getElementById("filtroGrupo").value;
+
+    const mes =
+        document.getElementById("filtroMes").value;
+
+    const fecha =
+        document.getElementById("filtroFecha").value;
+
+
+    // ==========================
+    // MOSTRAR CARGANDO
+    // ==========================
+
+    const boton =
+        document.getElementById(
+            "btnBuscarHistorial"
+        );
+
+    boton.textContent = "⏳ Searching...";
+
+    boton.disabled = true;
+
+
+    try{
+
+        // ==========================
+        // CONSTRUIR URL
+        // ==========================
+
+        let url =
+            API_URL +
+            "?action=historial";
+
+
+        if(alumno){
+
+            url +=
+                "&alumno=" +
+                encodeURIComponent(alumno);
+
+        }
+
+
+        if(grupo){
+
+            url +=
+                "&grupo=" +
+                encodeURIComponent(grupo);
+
+        }
+
+
+        if(mes){
+
+            url +=
+                "&mes=" +
+                encodeURIComponent(mes);
+
+        }
+
+
+        if(fecha){
+
+            url +=
+                "&fecha=" +
+                encodeURIComponent(fecha);
+
+        }
+
+
+        // ==========================
+        // CONSULTAR BACKEND
+        // ==========================
+
+        const respuesta =
+            await fetch(url);
+
+        const datos =
+            await respuesta.json();
+
+
+        console.log(
+            "HISTORIAL:",
+            datos
+        );
+
+
+        // ==========================
+        // MOSTRAR RESULTADOS
+        // ==========================
+
+        mostrarResultadosHistorial(
+            datos
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Error searching attendance history."
+        );
+
+        boton.textContent =
+            "🔍 Search";
+
+        boton.disabled = false;
+
+    }
+
+}
+// ==========================================
+// MOSTRAR RESULTADOS HISTORIAL
+// ==========================================
+
+function mostrarResultadosHistorial(datos){
+
+    const resultado =
+        document.getElementById("resultado");
+
+
+    // ==========================
+    // VALIDAR RESULTADOS
+    // ==========================
+
+    if(
+        !datos.exito ||
+        !datos.resultados ||
+        datos.resultados.length === 0
+    ){
+
+        resultado.innerHTML = `
+
+            <h2>
+                📊 Attendance History
+            </h2>
+
+            <p>
+                No attendance records found.
+            </p>
+
+            <br>
+
+            <button
+                onclick="mostrarPantallaHistorial()">
+
+                ← Back to filters
+
+            </button>
+
+        `;
+
+        return;
+
+    }
+
+
+    // ==========================
+    // CREAR LISTA
+    // ==========================
+
+    let html = `
+
+        <h2>
+            📊 Results
+        </h2>
+
+        <p>
+            Records found: ${datos.total}
+        </p>
+
+        <hr>
+
+    `;
+
+
+    datos.resultados.forEach(registro => {
+
+        html += `
+
+            <div class="registroHistorial">
+
+                <strong>
+                    ${registro.simbolo}
+                    ${registro.alumno}
+                </strong>
+
+                <br>
+
+                👥 ${registro.grupo}
+
+                <br>
+
+                📅 ${registro.fecha}
+
+                <br>
+
+                ${registro.estado}
+
+            </div>
+
+            <hr>
+
+        `;
+
+    });
+
+
+    // ==========================
+    // BOTÓN VOLVER
+    // ==========================
+
+    html += `
+
+        <button
+            onclick="mostrarPantallaHistorial()">
+
+            ← Back to filters
+
+        </button>
+
+    `;
+
+
+    resultado.innerHTML = html;
+
+}
