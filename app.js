@@ -17,6 +17,37 @@ let alumnoActual = "";
 let modoReposicion = false;
 
 // ==========================================
+// CACHE DE TEACHERS
+// ==========================================
+
+let teachersCache = null;
+
+
+// ==========================================
+// CARGAR TEACHERS
+// ==========================================
+
+async function cargarTeachers(){
+
+    // Si ya están cargados,
+    // devolver la lista guardada
+    if(teachersCache){
+
+        return teachersCache;
+
+    }
+
+    const respuesta = await fetch(
+        API_URL + "?action=teachers"
+    );
+
+    teachersCache = await respuesta.json();
+
+    return teachersCache;
+
+}
+
+// ==========================================
 // CÁMARA
 // ==========================================
 
@@ -354,14 +385,10 @@ async function mostrarPantallaReposicion(datos){
     );
 
     // ==========================
-    // Cargar teachers
+    // OBTENER TEACHERS DEL CACHE
     // ==========================
 
-    const respuesta = await fetch(
-        API_URL + "?action=teachers"
-    );
-
-    const lista = await respuesta.json();
+    const lista = await cargarTeachers();
 
     const select =
         document.getElementById("teacherSelect");
@@ -773,3 +800,23 @@ async function enviarSolicitud(){
     }
 
 }
+// ==========================================
+// PRECARGAR TEACHERS
+// ==========================================
+
+cargarTeachers()
+    .then(() => {
+
+        console.log(
+            "✅ Teachers cargados correctamente"
+        );
+
+    })
+    .catch(error => {
+
+        console.error(
+            "❌ Error cargando teachers:",
+            error
+        );
+
+    });
