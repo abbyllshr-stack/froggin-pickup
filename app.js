@@ -163,6 +163,21 @@ if(datos.claseHoy === true){
     procesando = false;
 
 }
+
+}catch(error){
+
+    console.error("ERROR COMPLETO:", error);
+
+    mostrarMensaje(
+        "❌ Error",
+        error.message || String(error)
+    );
+
+    procesando = false;
+
+}
+
+}
 // ============================
 // MOSTRAR PANTALLA TEACHER
 // ============================
