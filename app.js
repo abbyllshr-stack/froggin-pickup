@@ -684,42 +684,17 @@ window.onload = () => {
         CONFIG.REFRESH_TIME
     );
 
-    const btnReposicion =
-        document.getElementById("btnReposicion");
+    // ==========================
+    // BOTÓN HISTORIAL
+    // ==========================
 
-    btnReposicion.addEventListener("click", function(){
+    const btnHistorial =
+        document.getElementById("btnHistorial");
 
-        modoReposicion = !modoReposicion;
-
-        if(modoReposicion){
-
-            btnReposicion.innerHTML =
-                "❌ Cancelar reposición";
-
-            btnReposicion.style.background =
-                "#E53935";
-
-            mostrarMensaje(
-                "📚 Modo reposición",
-                "Escanea el alumno que tomará una clase de reposición."
-            );
-            
-        }else{
-
-            btnReposicion.innerHTML =
-                "📚 Reposición";
-
-            btnReposicion.style.background =
-                "#FF9800";
-
-            mostrarMensaje(
-                "🟢 Listo para escanear",
-                ""
-            );
-
-        }
-
-    });
+    btnHistorial.addEventListener(
+        "click",
+        mostrarPantallaHistorial
+    );
 
 };
 // ==========================================
@@ -820,3 +795,127 @@ cargarTeachers()
         );
 
     });
+// ==========================================
+// PANTALLA HISTORIAL
+// ==========================================
+
+function mostrarPantallaHistorial(){
+
+    const resultado =
+        document.getElementById("resultado");
+
+    resultado.innerHTML = `
+
+        <h2>📊 Attendance History</h2>
+
+        <label>
+            👤 Student
+        </label>
+
+        <br><br>
+
+        <select id="filtroAlumno">
+
+            <option value="">
+                All students
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <label>
+            👥 Group
+        </label>
+
+        <br><br>
+
+        <select id="filtroGrupo">
+
+            <option value="">
+                All groups
+            </option>
+
+        </select>
+
+        <br><br>
+
+
+        <label>
+            📅 Month
+        </label>
+
+        <br><br>
+
+        <select id="filtroMes">
+
+            <option value="">
+                All months
+            </option>
+
+            <option value="ENERO">January</option>
+            <option value="FEBRERO">February</option>
+            <option value="MARZO">March</option>
+            <option value="ABRIL">April</option>
+            <option value="MAYO">May</option>
+            <option value="JUNIO">June</option>
+            <option value="JULIO">July</option>
+            <option value="AGOSTO">August</option>
+            <option value="SEPTIEMBRE">September</option>
+            <option value="OCTUBRE">October</option>
+            <option value="NOVIEMBRE">November</option>
+            <option value="DICIEMBRE">December</option>
+
+        </select>
+
+        <br><br>
+
+
+        <label>
+            🗓️ Specific date
+        </label>
+
+        <br><br>
+
+        <input
+            type="date"
+            id="filtroFecha"
+        >
+
+        <br><br>
+
+
+        <button id="btnBuscarHistorial">
+
+            🔍 Search
+
+        </button>
+
+        <br><br>
+
+        <button id="btnVolver">
+
+            ← Back
+
+        </button>
+
+    `;
+
+
+    document
+        .getElementById("btnBuscarHistorial")
+        .addEventListener(
+            "click",
+            buscarHistorial
+        );
+
+
+    document
+        .getElementById("btnVolver")
+        .addEventListener(
+            "click",
+            volverInicio
+        );
+
+}
