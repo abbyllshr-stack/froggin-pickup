@@ -136,20 +136,26 @@ async function codigoDetectado(texto){
         // ES ALUMNO
         // ==========================
 
-        if(datos.claseHoy){
+       console.log("DATOS DEL ALUMNO:", datos);
+console.log("CLASE HOY:", datos.claseHoy);
+console.log("FRECUENCIA:", datos.frecuencia);
 
-```
-// 🟢 Hoy le corresponde su clase normal
-enviarSolicitudAutomatica(datos);
-```
+if(datos.claseHoy === true){
+
+    enviarSolicitudAutomatica(datos);
+
+}else if(datos.claseHoy === false){
+
+    mostrarPantallaReposicion(datos);
 
 }else{
 
-```
-// 📚 Hoy no le corresponde clase:
-// se detecta automáticamente como reposición
-mostrarPantallaReposicion(datos);
-```
+    mostrarMensaje(
+        "❌ Error de frecuencia",
+        "No se pudo determinar si el alumno tiene clase hoy."
+    );
+
+    procesando = false;
 
 }
 
