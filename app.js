@@ -526,11 +526,47 @@ async function enviarSolicitudesReposicion(){
             boton.textContent =
                 "📨 Enviar solicitudes";
 
-            return;
+                        return;
         }
 
     }
 
+
+    for(const alumno of alumnosReposicion){
+
+        const select =
+            document.getElementById(
+                `teacherSelect_${alumno.fila}`
+            );
+
+        const teacher =
+            select.value;
+
+        const url =
+            API_URL +
+            "?action=enviar" +
+            "&fila=" +
+            encodeURIComponent(alumno.fila) +
+            "&teacher=" +
+            encodeURIComponent(teacher);
+
+        const respuesta =
+            await fetch(url);
+
+        const resultado =
+            await respuesta.json();
+
+    }
+    mostrarMensaje(
+        "✅ Solicitudes enviadas",
+        "Las solicitudes fueron enviadas correctamente."
+    );
+
+    cargarPendientes();
+
+    alumnoActual = "";
+    procesando = false;
+    modoReposicion = false;
 }
 async function enviarSolicitudAutomatica(datos){
 
