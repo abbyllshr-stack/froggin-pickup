@@ -14,6 +14,8 @@ let procesando = false;
 
 let alumnoActual = "";
 
+let alumnosReposicion = [];
+
 let modoReposicion = false;
 
 // ==========================================
@@ -360,6 +362,7 @@ async function mostrarPantallaReposicion(datos){
 
     const hermanos =
         datos.hermanos || [datos];
+        alumnosReposicion = hermanos;
 
 
     // ==========================
@@ -483,7 +486,50 @@ async function mostrarPantallaReposicion(datos){
     // El botón se conectará
     // en el siguiente paso.
     //
-    // ==========================
+document
+    .getElementById("btnEnviar")
+    .addEventListener(
+        "click",
+        enviarSolicitudesReposicion
+    );
+}
+// ==========================================
+// ENVIAR SOLICITUDES DE REPOSICIÓN
+// ==========================================
+
+async function enviarSolicitudesReposicion(){
+
+    const boton =
+        document.getElementById("btnEnviar");
+
+    boton.disabled = true;
+
+    boton.textContent =
+        "📨 Enviando...";
+
+    for(const alumno of alumnosReposicion){
+
+        const select =
+            document.getElementById(
+                `teacherSelect_${alumno.fila}`
+            );
+
+        if(!select || !select.value){
+
+            mostrarMensaje(
+                "⚠️ Falta seleccionar teacher",
+                `Selecciona un teacher para ${alumno.alumno}.`
+            );
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "📨 Enviar solicitudes";
+
+            return;
+        }
+
+    }
 
 }
 async function enviarSolicitudAutomatica(datos){
