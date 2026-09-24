@@ -354,85 +354,138 @@ async function registrarTeacher(id){
 
 async function mostrarPantallaReposicion(datos){
 
-    mostrarMensaje(
-        "📚 Reposición",
-        `
-        <div class="nombreAlumno">
-            ${datos.alumno}
-        </div>
+    // ==========================
+    // OBTENER LISTA DE HERMANOS
+    // ==========================
 
-        <div class="grupoAlumno">
-            ${datos.grupo}
+    const hermanos =
+        datos.hermanos || [datos];
+
+
+    // ==========================
+    // CARGAR TEACHERS
+    // ==========================
+
+    const respuesta = await fetch(
+        API_URL + "?action=teachers"
+    );
+
+    const lista = await respuesta.json();
+
+
+    // ==========================
+    // CREAR CONTENIDO
+    // ==========================
+
+    let contenido = `
+        <div class="nombreAlumno">
+            📚 Reposición
         </div>
 
         <br>
+    `;
 
-        <label class="labelTeacher">
-            👩‍🏫 Teacher
-        </label>
 
-        <br><br>
+    hermanos.forEach((alumno, index) => {
 
-        <select id="teacherSelect">
-        </select>
+        contenido += `
 
-        <br><br>
+            <div class="grupoAlumno"
+                 style="margin-bottom:5px;">
+                ${alumno.alumno}
+            </div>
 
-        <button id="btnEnviar">
-            📨 Enviar solicitud
-        </button>
-        `
-    );
+            <div style="
+                font-size:14px;
+                margin-bottom:10px;
+            ">
+                ${alumno.grupo}
+            </div>
 
-    // ==========================
-    // OBTENER TEACHERS DEL CACHE
-    // ==========================
+            <label class="labelTeacher">
+                👩‍🏫 Teacher
+            </label>
 
-    const lista = await cargarTeachers();
+            <br><br>
 
-    const select =
-        document.getElementById("teacherSelect");
+            <select
+                id="teacherSelect_${alumno.fila}"
+                style="margin-bottom:25px;"
+            >
 
-    // Limpiar opciones anteriores
-    select.innerHTML = "";
+                <option
+                    value=""
+                    disabled
+                    selected
+                >
+                    Select a teacher
+                </option>
 
-    // Opción inicial
-    const opcionInicial =
-        document.createElement("option");
+            </select>
 
-    opcionInicial.value = "";
-    opcionInicial.textContent = "Select a teacher";
-    opcionInicial.disabled = true;
-    opcionInicial.selected = true;
-
-    select.appendChild(opcionInicial);
-
-    // Agregar teachers
-    lista.forEach(teacher => {
-
-        const option =
-            document.createElement("option");
-
-        option.value = teacher;
-        option.textContent = teacher;
-
-        select.appendChild(option);
+        `;
 
     });
 
-    // Evento del botón
-    document
-        .getElementById("btnEnviar")
-        .addEventListener(
-            "click",
-            enviarSolicitud
-        );
+
+    contenido += `
+
+        <button id="btnEnviar">
+            📨 Enviar solicitudes
+        </button>
+
+    `;
+
+
+    // ==========================
+    // MOSTRAR PANTALLA
+    // ==========================
+
+    mostrarMensaje(
+        "",
+        contenido
+    );
+
+
+    // ==========================
+    // LLENAR CADA SELECT
+    // ==========================
+
+    hermanos.forEach(alumno => {
+
+        const select =
+            document.getElementById(
+                `teacherSelect_${alumno.fila}`
+            );
+
+        if(!select) return;
+
+
+        lista.forEach(teacher => {
+
+            const option =
+                document.createElement("option");
+
+            option.value = teacher;
+            option.textContent = teacher;
+
+            select.appendChild(option);
+
+        });
+
+    });
+
+
+    // ==========================
+    // POR AHORA NO ENVIAMOS
+    // ==========================
+    //
+    // El botón se conectará
+    // en el siguiente paso.
+    //
+    // ==========================
 
 }
-// ==========================================
-// ENVÍO AUTOMÁTICO
-// ==========================================
-
 async function enviarSolicitudAutomatica(datos){
 
 const url =
