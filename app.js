@@ -14,6 +14,8 @@ let procesando = false;
 
 let alumnoActual = "";
 
+let cargandoPendientes = false;
+
 let alumnosReposicion = [];
 
 let modoReposicion = false;
@@ -652,6 +654,10 @@ const url =
 
 async function cargarPendientes(){
 
+    if(cargandoPendientes) return;
+
+    cargandoPendientes = true;
+
     try{
 
         const respuesta = await fetch(
@@ -788,6 +794,10 @@ async function cargarPendientes(){
     }catch(error){
 
         console.error(error);
+
+    }finally{
+
+        cargandoPendientes = false;
 
     }
 
