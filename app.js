@@ -1360,6 +1360,43 @@ function mostrarResultadosHistorial(datos){
     // CREAR LISTA
     // ==========================
 
+    // ==========================
+    // MOSTRAR RESUMEN POR GRUPO Y MES
+    // ==========================
+    if (datos.modoResumen) {
+
+        let html = `
+            <h2>📊 Resumen de faltas</h2>
+            <p>Alumnos del grupo: ${datos.total}</p>
+            <hr>
+        `;
+
+        datos.resultados.forEach(registro => {
+
+            html += `
+                <div class="registroHistorial">
+                    <strong>${registro.alumno}</strong>
+                    <br>
+                    👥 ${registro.grupo}
+                    <br>
+                    ❌ Faltas: ${registro.faltas}
+                </div>
+                <hr>
+            `;
+
+        });
+
+        html += `
+            <button onclick="mostrarPantallaHistorial()">
+                ← Back to filters
+            </button>
+        `;
+
+        resultado.innerHTML = html;
+        return;
+
+    }
+
     let html = `
 
         <h2>
