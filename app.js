@@ -1375,15 +1375,31 @@ function mostrarResultadosHistorial(datos){
     `;
 
 
-    datos.resultados.forEach(registro => {
+    
+    // ==========================
+    // SEPARAR FALTAS Y ASISTENCIAS
+    // ==========================
+
+    const faltas = datos.resultados.filter(registro =>
+        registro.estado === "Absent"
+    );
+
+    const asistencias = datos.resultados.filter(registro =>
+        registro.estado === "Present"
+    );
+
+    // ==========================
+    // MOSTRAR FALTAS PRIMERO
+    // ==========================
+
+    html += `<h3>❌ Faltas (${faltas.length})</h3>`;
+
+    faltas.forEach(registro => {
 
         html += `
-
             <div class="registroHistorial">
-
                 <strong>
-                    ${registro.simbolo}
-                    ${registro.alumno}
+                    ❌ ${registro.alumno}
                 </strong>
 
                 <br>
@@ -1396,16 +1412,43 @@ function mostrarResultadosHistorial(datos){
 
                 <br>
 
-                ${registro.estado}
-
+                Absent
             </div>
 
             <hr>
-
         `;
-
     });
 
+    // ==========================
+    // MOSTRAR ASISTENCIAS DESPUÉS
+    // ==========================
+
+    html += `<h3>✔ Asistencias (${asistencias.length})</h3>`;
+
+    asistencias.forEach(registro => {
+
+        html += `
+            <div class="registroHistorial">
+                <strong>
+                    ✔ ${registro.alumno}
+                </strong>
+
+                <br>
+
+                👥 ${registro.grupo}
+
+                <br>
+
+                📅 ${registro.fecha}
+
+                <br>
+
+                Present
+            </div>
+
+            <hr>
+        `;
+    });
 
     // ==========================
     // BOTÓN VOLVER
