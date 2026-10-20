@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,30 +18,52 @@
 
 <div class="contenedor">
 
-<h1>🐸 Froggin Pickup Colima</h1>
+    <h1>🐸 Froggin Pickup Colima</h1>
 
-<div id="reader"></div>
-  
-  <button id="btnHistorial">
-    📊 Attendance History
-</button>
+    <div id="reader"></div>
 
-<div id="resultado">
+    <button id="btnReposicion">
+        📚 Reposición
+    </button>
 
-<h2>Última solicitud</h2>
+    <button id="btnCumpleanos">
+        🎂 Today's Birthdays
+    </button>
 
-<p>Esperando escaneo...</p>
+    <div id="pantallaCumpleanos" style="display: none;">
 
-</div>
-<hr>
+        <h2>🎂 Today's Birthdays</h2>
 
-<h2>📋 Alumnos solicitados</h2>
+        <button id="btnVolverCumpleanos">
+            ⬅ Volver a recepción
+        </button>
 
-<div id="listaPendientes">
+        <div id="listaCumpleanos">
+            <p>Cargando cumpleaños...</p>
+        </div>
 
-<p>No hay alumnos pendientes.</p>
+    </div>
 
-</div>
+    <button id="btnHistorial">
+        📊 Attendance History
+    </button>
+
+    <div id="resultado">
+
+        <h2>Última solicitud</h2>
+
+        <p>Esperando escaneo...</p>
+
+    </div>
+
+    <hr>
+
+    <h2>📋 Alumnos solicitados</h2>
+
+    <div id="listaPendientes">
+        <p>No hay alumnos pendientes.</p>
+    </div>
+
 </div>
 
 <script src="config.js"></script>
