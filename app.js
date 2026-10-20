@@ -829,6 +829,7 @@ window.onload = () => {
         CONFIG.REFRESH_TIME
     );
 
+    
     // ==========================
     // BOTÓN HISTORIAL
     // ==========================
@@ -836,12 +837,43 @@ window.onload = () => {
     const btnHistorial =
         document.getElementById("btnHistorial");
 
-    btnHistorial.addEventListener(
-        "click",
-        mostrarPantallaHistorial
-    );
+    if (btnHistorial) {
+        btnHistorial.addEventListener(
+            "click",
+            mostrarPantallaHistorial
+        );
+    }
+
+    // ==========================
+    // BOTÓN CUMPLEAÑOS
+    // ==========================
+
+    const btnCumpleanos =
+        document.getElementById("btnCumpleanos");
+
+    if (btnCumpleanos) {
+        btnCumpleanos.addEventListener(
+            "click",
+            mostrarPantallaCumpleanos
+        );
+    }
+
+    // ==========================
+    // VOLVER A RECEPCIÓN
+    // ==========================
+
+    const btnVolverCumpleanos =
+        document.getElementById("btnVolverCumpleanos");
+
+    if (btnVolverCumpleanos) {
+        btnVolverCumpleanos.addEventListener(
+            "click",
+            cerrarPantallaCumpleanos
+        );
+    }
 
 };
+
 // ==========================================
 // ENVIAR SOLICITUD
 // ==========================================
@@ -1519,4 +1551,239 @@ function cerrarHistorial(){
 
     procesando = false;
 
+}
+
+/* ==========================================
+   PANTALLA TODAY'S BIRTHDAYS
+========================================== */
+
+async function mostrarPantallaCumpleanos() {
+
+    // Detener el escáner mientras vemos cumpleaños
+    try {
+        await reader.stop();
+    } catch (error) {
+        console.log("La cámara ya estaba detenida.");
+    }
+
+    // Ocultar elementos de recepción
+    document.getElementById("reader").style.display = "none";
+    document.getElementById("btnReposicion").style.display = "none";
+    document.getElementById("btnCumpleanos").style.display = "none";
+    document.getElementById("resultado").style.display = "none";
+    document.getElementById("listaPendientes").style.display = "none";
+
+    const lista = document.getElementById("listaPendientes");
+    if (lista.previousElementSibling) {
+        lista.previousElementSibling.style.display = "none";
+    }
+
+    const pantalla = document.getElementById("pantallaCumpleanos");
+    pantalla.style.display = "block";
+
+    await cargarCumpleanosHoy();
+}
+
+
+/* ==========================================
+   CARGAR CUMPLEAÑOS DE HOY
+========================================== */
+
+async function cargarCumpleanosHoy() {
+
+    const lista = document.getElementById("listaCumpleanos");
+
+    lista.innerHTML = "<p>⏳ Cargando cumpleaños...</p>";
+
+    try {
+
+        const respuesta = await fetch(
+            API_URL + "?action=cumpleanosHoy"
+        );
+
+        const datos = await respuesta.json();
+
+        if (!datos.exito) {
+            lista.innerHTML =
+                "<p>❌ No se pudieron cargar los cumpleaños.</p>";
+            return;
+        }
+
+        if (!datos.resultados || datos.resultados.length === 0) {
+            lista.innerHTML = `
+                <p>🎉 No hay cumpleaños pendientes de entrega para hoy.</p>
+            `;
+            return;
+        }
+
+        lista.innerHTML = "";
+
+        datos.resultados.forEach(alumno => {
+
+            const tarjeta = document.createElement("div");
+
+            tarjeta.style.cssText = `
+                border: 1px solid #d8d8d8;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 12px 0;
+                background: #ffffff;
+                text-align: left;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+            `;
+
+            const cumpleanos = formatearFechaCumpleanos(
+                alumno.cumpleanos
+            );
+
+            const fechaIdeal = formatearFechaCumpleanos(
+                alumno.fechaIdeal
+            );
+
+            tarjeta.innerHTML = `
+                <h3 style="margin-top:0;">
+                    🎂 ${alumno.alumno || "Sin nombre"}
+                </h3>
+
+                <p><strong>ID:</strong> ${alumno.id ?? ""}</p>
+                <p><strong>Cumpleaños:</strong> ${cumpleanos}</p>
+                <p><strong>Fecha ideal de entrega:</strong> ${fechaIdeal}</p>
+                <p><strong>Estatus:</strong> 🟡 Pendiente</p>
+
+                <button
+                    type="button"
+                    class="btnEntregarCumpleanos"
+                    data-fila="${alumno.fila}">
+                    🎁 Entregado
+                </button>
+            `;
+
+            lista.appendChild(tarjeta);
+
+        });
+
+        lista.querySelectorAll(".btnEntregarCumpleanos")
+            .forEach(boton => {
+                boton.addEventListener("click", marcarCumpleanosEntregado);
+            });
+
+    } catch (error) {
+
+        console.error("Error cargando cumpleaños:", error);
+
+        lista.innerHTML = `
+            <p>❌ Error de conexión al cargar los cumpleaños.</p>
+            <button type="button" onclick="cargarCumpleanosHoy()">
+                🔄 Intentar de nuevo
+            </button>
+        `;
+    }
+}
+
+
+/* ==========================================
+   MARCAR CUMPLEAÑOS COMO ENTREGADO
+========================================== */
+
+async function marcarCumpleanosEntregado(evento) {
+
+    const boton = evento.currentTarget;
+    const fila = boton.dataset.fila;
+
+    boton.disabled = true;
+    boton.textContent = "⏳ Guardando...";
+
+    try {
+
+        const respuesta = await fetch(
+            API_URL +
+            "?action=entregarCumpleanos&fila=" +
+            encodeURIComponent(fila)
+        );
+
+        const resultado = await respuesta.json();
+
+        if (!resultado.exito) {
+
+            alert(resultado.mensaje || "No se pudo registrar la entrega.");
+
+            boton.disabled = false;
+            boton.textContent = "🎁 Entregado";
+            return;
+        }
+
+        // Actualizar la lista para retirar la tarjeta entregada
+        await cargarCumpleanosHoy();
+
+    } catch (error) {
+
+        console.error("Error registrando entrega:", error);
+
+        alert("Ocurrió un error al guardar la entrega.");
+
+        boton.disabled = false;
+        boton.textContent = "🎁 Entregado";
+    }
+}
+
+
+/* ==========================================
+   FORMATEAR FECHAS
+========================================== */
+
+function formatearFechaCumpleanos(valor) {
+
+    if (!valor) return "Sin fecha";
+
+    // Fechas tipo yyyy-MM-dd
+    const texto = String(valor);
+
+    const fechaSimple = texto.match(
+        /^(\d{4})-(\d{2})-(\d{2})$/
+    );
+
+    if (fechaSimple) {
+        return `${fechaSimple[3]}/${fechaSimple[2]}/${fechaSimple[1]}`;
+    }
+
+    // Fechas ISO recibidas desde Google Apps Script
+    const fecha = new Date(valor);
+
+    if (isNaN(fecha.getTime())) {
+        return texto;
+    }
+
+    return fecha.toLocaleDateString("es-MX", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        timeZone: "UTC"
+    });
+}
+
+
+/* ==========================================
+   VOLVER A RECEPCIÓN
+========================================== */
+
+async function cerrarPantallaCumpleanos() {
+
+    document.getElementById("pantallaCumpleanos").style.display = "none";
+
+    document.getElementById("reader").style.display = "";
+    document.getElementById("btnReposicion").style.display = "";
+    document.getElementById("btnCumpleanos").style.display = "";
+    document.getElementById("resultado").style.display = "";
+    document.getElementById("listaPendientes").style.display = "";
+
+    const lista = document.getElementById("listaPendientes");
+
+    if (lista.previousElementSibling) {
+        lista.previousElementSibling.style.display = "";
+    }
+
+    mostrarMensaje("🟢 Listo para escanear", "");
+
+    cargarPendientes();
+    iniciarCamara();
 }
