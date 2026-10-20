@@ -1762,6 +1762,7 @@ function formatearFechaCumpleanos(valor) {
 }
 
 
+
 /* ==========================================
    VOLVER A RECEPCIÓN
 ========================================== */
@@ -1784,6 +1785,14 @@ async function cerrarPantallaCumpleanos() {
 
     mostrarMensaje("🟢 Listo para escanear", "");
 
-    cargarPendientes();
-    iniciarCamara();
+    await cargarPendientes();
+
+    // Reiniciar la cámara solo si no está activa.
+    try {
+        if (!reader.isScanning) {
+            await iniciarCamara();
+        }
+    } catch (error) {
+        console.error("Error al regresar a recepción:", error);
+    }
 }
